@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="ru"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roadmap — Будущее 2.0</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+:root {
+  --ink:     #0F0F0F;
+  --paper:   #FAF8F4;
+  --rule:    #E2DDD5;
+  --dim:     #8A8480;
+  --portal:  #1A5276;
+  --portal-l:#D6EAF8;
+  --indep:   #1E8449;
+  --indep-l: #D5F5E3;
+  --quality: #784212;
+  --quality-l:#FDEBD0;
+  --found:   #512E5F;
+  --found-l: #E8DAEF;
+  --warn:    #922B21;
+  --warn-l:  #FADBD8;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* ── HEADER ── */
+.masthead {
+  border-bottom: 3px solid var(--ink);
+  padding: 28px 48px 20px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: 24px;
+}
+
+.masthead-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 42px;
+  line-height: 1;
+  letter-spacing: -1px;
+}
+
+.masthead-sub {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--dim);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-top: 8px;
+}
+
+.masthead-meta {
+  text-align: right;
+}
+
+.masthead-company {
+  font-family: 'DM Serif Display', serif;
+  font-size: 18px;
+  font-style: italic;
+  color: var(--dim);
+}
+
+.masthead-date {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--dim);
+  letter-spacing: 0.1em;
+  margin-top: 4px;
+}
+
+/* ── LEGEND ── */
+.legend-bar {
+  padding: 12px 48px;
+  border-bottom: 1px solid var(--rule);
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.legend-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--dim);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-right: 8px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  opacity: 1;
+  transition: opacity .2s;
+}
+
+.legend-item:hover { opacity: 0.7; }
+
+.legend-pip {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+}
+
+/* ── TIMELINE ── */
+.timeline {
+  padding: 40px 48px;
+  position: relative;
+}
+
+/* vertical spine */
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 48px;
+  top: 0; bottom: 0;
+  width: 1px;
+  background: var(--rule);
+  pointer-events: none;
+}
+
+/* ── PHASE ── */
+.phase {
+  margin-bottom: 56px;
+  position: relative;
+}
+
+.phase-header {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 32px;
+  align-items: start;
+  margin-bottom: 24px;
+}
+
+.phase-date-block {
+  position: relative;
+  padding-left: 24px;
+}
+
+/* dot on spine */
+.phase-date-block::before {
+  content: '';
+  position: absolute;
+  left: -25px;
+  top: 6px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--ink);
+  border: 2px solid var(--paper);
+  box-shadow: 0 0 0 1px var(--ink);
+}
+
+.phase-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--dim);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+
+.phase-period {
+  font-family: 'DM Serif Display', serif;
+  font-size: 22px;
+  line-height: 1.1;
+  margin-bottom: 6px;
+}
+
+.phase-goal {
+  font-size: 11px;
+  color: var(--dim);
+  font-style: italic;
+  line-height: 1.5;
+}
+
+.phase-title-block { }
+
+.phase-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 28px;
+  line-height: 1.1;
+  letter-spacing: -0.3px;
+  margin-bottom: 8px;
+}
+
+.phase-outcome {
+  font-size: 13px;
+  color: var(--dim);
+  border-left: 2px solid var(--rule);
+  padding-left: 12px;
+  line-height: 1.5;
+}
+
+/* ── TRACKS ── */
+.tracks {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  padding-left: 224px; /* align with title block */
+}
+
+/* ── TRACK CARD ── */
+.track {
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+  overflow: hidden;
+  background: white;
+  transition: box-shadow .2s, transform .2s;
+  cursor: pointer;
+}
+
+.track:hover {
+  box-shadow: 4px 4px 0 var(--ink);
+  transform: translate(-2px,-2px);
+}
+
+.track.expanded .track-body { display: block; }
+
+.track-head {
+  padding: 14px 16px 12px;
+  border-bottom: 1px solid var(--rule);
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.track-type-pip {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-top: 5px;
+  flex-shrink: 0;
+}
+
+.track-name {
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 1.3;
+  flex: 1;
+}
+
+.track-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  padding: 2px 7px;
+  border-radius: 20px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  font-weight: 500;
+}
+
+.track-body {
+  padding: 14px 16px;
+  display: none;
+}
+
+.track-section-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--dim);
+  margin-bottom: 6px;
+  margin-top: 12px;
+}
+
+.track-section-label:first-child { margin-top: 0; }
+
+.track-items {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.track-items li {
+  font-size: 12px;
+  color: #333;
+  padding-left: 12px;
+  position: relative;
+  line-height: 1.5;
+}
+
+.track-items li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--dim);
+  font-size: 10px;
+}
+
+.track-result {
+  margin-top: 12px;
+  padding: 10px 12px;
+  border-radius: 2px;
+  font-size: 12px;
+  line-height: 1.5;
+  font-weight: 500;
+}
+
+.track-footer {
+  padding: 10px 16px;
+  border-top: 1px solid var(--rule);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.track-team {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--dim);
+  letter-spacing: 0.06em;
+}
+
+.track-resources {
+  font-size: 10px;
+  color: var(--dim);
+}
+
+/* ── PHASE DIVIDER ── */
+.phase-divider {
+  border: none;
+  border-top: 1px dashed var(--rule);
+  margin: 0 0 56px 0;
+}
+
+/* ── FILTER ACTIVE ── */
+body.filter-portal   .track:not([data-type="portal"])   { opacity: .2; pointer-events: none; }
+body.filter-indep    .track:not([data-type="indep"])    { opacity: .2; pointer-events: none; }
+body.filter-quality  .track:not([data-type="quality"])  { opacity: .2; pointer-events: none; }
+body.filter-found    .track:not([data-type="found"])    { opacity: .2; pointer-events: none; }
+
+/* ── COLORS BY TYPE ── */
+.track[data-type="portal"]  .track-type-pip { background: var(--portal); }
+.track[data-type="indep"]   .track-type-pip { background: var(--indep); }
+.track[data-type="quality"] .track-type-pip { background: var(--quality); }
+.track[data-type="found"]   .track-type-pip { background: var(--found); }
+
+.track[data-type="portal"]  .track-tag { background: var(--portal-l);  color: var(--portal); }
+.track[data-type="indep"]   .track-tag { background: var(--indep-l);   color: var(--indep); }
+.track[data-type="quality"] .track-tag { background: var(--quality-l); color: var(--quality); }
+.track[data-type="found"]   .track-tag { background: var(--found-l);   color: var(--found); }
+
+.track[data-type="portal"]  .track-result { background: var(--portal-l);  color: var(--portal); }
+.track[data-type="indep"]   .track-result { background: var(--indep-l);   color: var(--indep); }
+.track[data-type="quality"] .track-result { background: var(--quality-l); color: var(--quality); }
+.track[data-type="found"]   .track-result { background: var(--found-l);   color: var(--found); }
+
+/* ── CRITICAL BADGE ── */
+.critical-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  color: var(--warn);
+  background: var(--warn-l);
+  border: 1px solid #f1948a;
+  border-radius: 2px;
+  padding: 2px 7px;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+/* ── FOOTER ── */
+.doc-footer {
+  border-top: 3px solid var(--ink);
+  padding: 20px 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.doc-footer-note {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--dim);
+  letter-spacing: 0.08em;
+}
+
+/* expand hint */
+.expand-hint {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  color: var(--dim);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <div>
+    <div class="masthead-title">Технологический<br>роадмап</div>
+    <div class="masthead-sub">Архитектурная трансформация · 12 месяцев · 4 фазы</div>
+  </div>
+  <div class="masthead-meta">
+    <div class="masthead-company">Будущее 2.0</div>
+    <div class="masthead-date">2025 — 2026</div>
+  </div>
+</div>
+
+<div class="legend-bar">
+  <span class="legend-label">Треки</span>
+  <div class="legend-item" onclick="toggleFilter('portal')">
+    <div class="legend-pip" style="background:var(--portal)"></div>
+    Портал самообслуживания
+  </div>
+  <div class="legend-item" onclick="toggleFilter('indep')">
+    <div class="legend-pip" style="background:var(--indep)"></div>
+    Независимость доменов
+  </div>
+  <div class="legend-item" onclick="toggleFilter('quality')">
+    <div class="legend-pip" style="background:var(--quality)"></div>
+    Качество сервисов
+  </div>
+  <div class="legend-item" onclick="toggleFilter('found')">
+    <div class="legend-pip" style="background:var(--found)"></div>
+    Фундамент (инфраструктура)
+  </div>
+  <div class="legend-item" style="margin-left:auto;" onclick="toggleFilter(null)">
+    <span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--dim);letter-spacing:.08em;text-transform:uppercase;">сбросить</span>
+  </div>
+</div>
+
+<div class="timeline">
+
+  <!-- ══════════════════════════════════════════════════════ ФАЗА 0 -->
+  <div class="phase">
+    <div class="phase-header">
+      <div class="phase-date-block">
+        <div class="phase-num">Фаза 0</div>
+        <div class="phase-period">Месяц 1–2</div>
+        <div class="phase-goal">Цель: согласование архитектуры и снятие критических регуляторных рисков</div>
+      </div>
+      <div class="phase-title-block">
+        <div class="phase-title">Фундамент и комплаенс</div>
+        <div class="phase-outcome">Архитектура согласована. Домены 
+определены. Критические риски 152-ФЗ и банковского регулирования 
+задокументированы и переданы на устранение.</div>
+      </div>
+    </div>
+
+    <div class="tracks">
+
+      <div class="track" data-type="found" onclick="toggleTrack(this)">
+        <div class="track-head">
+          <div class="track-type-pip"></div>
+          <div class="track-name">Аудит данных в DWH и классификация</div>
+          <span class="track-tag">Фундамент</span>
+        </div>
+        <div class="track-body">
+          <div class="track-section-label">Шаги</div>
+          <ul class="track-items">
+            <li>Инвентаризация всех таблиц DWH: классификация по доменам и типам данных</li>
+            <li>Выявление PHI (персональные медданные), PFI (финансовые данные)</li>
+            <li>Оценка качества данных: дубли, пустые значения, несогласованные типы</li>
+            <li>Документирование бизнес-логики, зашитой в DWH (хранимые процедуры, триггеры)</li>
+          </ul>
+          <div class="track-section-label">Результат</div>
+          <div class="track-result">Карта данных DWH с разметкой по доменам и типам чувствительности. Основа для стратегии миграции.</div>
+          <div class="track-section-label">Ресурсы</div>
+          <ul class="track-items">
+            <li>2 Data Engineer + 1 аналитик данных</li>
+            <li>Инструмент профилирования: Great Expectations или dbt profiling</li>
+          </ul>
+        </div>
+        <div class="track-footer">
+          <span class="track-team">Data Platform team</span>
+          <span class="expand-hint">↓ раскрыть</span>
+        </div>
+      </div>
+
+      <div class="track" data-type="found" onclick="toggleTrack(this)">
+        <div class="track-head">
+          <div class="track-type-pip"></div>
+          <div class="track-name">Определение границ доменов и назначение владельцев</div>
+          <span class="track-tag">Фундамент</span>
+        </div>
+        <div class="track-body">
+          <div class="track-section-label">Шаги</div>
+          <ul class="track-items">
+            <li>Event Storming сессии с каждым бизнес-доменом</li>
+            <li>Фиксация bounded contexts и публичных контрактов (API schema)</li>
+            <li>Назначение Domain Data Owner в каждом домене</li>
+            <li>Согласование архитектурного решения с CTO и руководителями доменов</li>
+          </ul>
+          <div class="track-section-label">Результат</div>
+          <div class="track-result">Документ с границами доменов, контрактами и матрицей ответственности (RACI). Согласован со всеми стейкхолдерами.</div>
+          <div class="track-section-label">Ресурсы</div>
+          <ul class="track-items">
+            <li>Архитектор + Product Owners всех доменов</li>
+            <li>2–3 воркшопа по 4 часа</li>
+          </ul>
+        </div>
+        <div class="track-footer">
+          <span class="track-team">Architecture + Leadership</span>
+          <span class="expand-hint">↓ раскрыть</span>
+        </div>
+      </div>
+
+      <div class="track" data-type="quality" onclick="toggleTrack(this)">
+        <div class="track-head">
+          <div class="track-type-pip"></div>
+          <div class="track-name">Комплаенс-аудит: 152-ФЗ и банковское регулирование</div>
+          <div class="critical-badge">⚠ Критично</div>
+        </div>
+        <div class="track-body">
+          <div class="track-section-label">Шаги</div>
+          <ul class="track-items">
+            <li>Юридический аудит текущего хранения PHI и финансовых данных</li>
+            <li>Оценка соответствия требованиям ЦБ по изоляции банковских данных</li>
+            <li>Разработка плана устранения нарушений с приоритетами</li>
+            <li>Согласование архитектуры PHI Vault с DPO и юридическим отделом</li>
+          </ul>
+          <div class="track-section-label">Результат</div>
+          <div class="track-result">Отчёт о нарушениях с планом устранения. Архитектура PHI Vault согласована с регуляторными требованиями.</div>
+          <div class="track-section-label">Ресурсы</div>
+          <ul class="track-items">
+            <li>DPO + юрист + Security Engineer</li>
+            <li>Внешний аудитор (опционально)</li>
+          </ul>
+        </div>
+        <div class="track-footer">
+          <span class="track-team">Legal + Security + DPO</span>
+          <span class="expand-hint">↓ раскрыть</span>
+        </div>
+      </div>
+
+      <div class="track" data-type="found" onclick="toggleTrack(this)">
+        <div class="track-head">
+          <div class="track-type-pip"></div>
+          <div class="track-name">Выбор облачного провайдера и целевого стека</div>
+          <span class="track-tag">Фундамент</span>
+        </div>
+        <div class="track-body">
+          <div class="track-section-label">Шаги</div>
+          <ul class="track-items">
+            <li>RFP (Request for Proposal) к 2–3 облачным провайдерам</li>
+            <li>PoC: managed Kafka + Iceberg + PostgreSQL в выбранном облаке</li>
+            <li>Оценка стоимости (TCO) на 3 года</li>
+            <li>Финальный выбор и подписание соглашений</li>
+          </ul>
+          <div class="track-section-label">Результат</div>
+          <div class="track-result">Облачный провайдер выбран. PoC подтверждает работоспособность ключевых компонентов.</div>
+          <div class="track-section-label">Ресурсы</div>
+          <ul class="track-items">
+            <li>Архитектор + Cloud Engineer + CFO</li>
+            <li>Бюджет на PoC: ~1 месяц разработки</li>
+          </ul>
+        </div>
+        <div class="track-footer">
+          <span class="track-team">Architecture + Finance</span>
+          <span class="expand-hint">↓ раскрыть</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════ ФАЗА 1 -->
+  <div class="phase">
+    <div class="phase-header">
+      <div class="phase-date-block">
+        <div class="phase-num">Фаза 1</div>
+        <div class="phase-period">Месяц 3–5</div>
+        <div class="phase-goal">Цель: изоляция данных, запуск Event Bus, первые данные в Lakehouse</div>
+      </div>
+      <div class="phase-title-block">
+        <div class="phase-title">Инфраструктура и изоляция</div>
+        <div class="phase-outcome">PHI изолированы. Kafka запущена. Первые домены публикуют события. Lakehouse принимает данные. Регуляторные нарушения устранены.</div>
+      </div>
+    </div>
+
+    <div class="tracks">
+
+      <div class="track" data-type="quality" onclick="toggleTrack(this)">
+        <div class="track-head">
+          <div class="track-type-pip"></div>
+          <div class="track-name">PHI Vault: изоляция медицинских данных</div>
+          <div class="critical-badge">⚠ Критично</div>
+        </div>
+        <div class="track-body">
+          <div class="track-section-label">Шаги</div>
+          <ul class="track-items">
+            <li>Развёртывание зашифрованного объектного хранилища (PHI Vault)</li>
+            <li>Миграция медицинских снимков и историй болезней из DWH в Vault</li>
+            <li>Настройка политик доступа: только ИИ-сервисы и авторизованные врачи</li>
+            <li>Аудит-лог всех обращений к PHI</li>
+            <li>Подтверждение соответствия 152-ФЗ</li>
+          </ul>
+          <div class="track-section-label">Результат</div>
+          <div class="track-result">PHI физически отделены от аналитической инфраструктуры. Доступ контролируется и логируется. 152-ФЗ выполнен.</div>
+          <div class="track-section-label">Ресурсы</div>
+          <ul class="track-items">
+            <li>Security Engineer + Data Engineer + DPO</li>
+            <li>Облачный объектный storage с шифрованием at-rest и in-transit</li>
+          </ul>
+        </div>
+        <div class="track-footer">
+          <span class="track-team">Clinical Domain + Security</span>
+          <span class="expand-hint">↓ раскрыть</span>
+        </div>
+      </div>
+
+      <div class="track" data-type="found" onclick="toggleTrack(this)">
+        <div class="track-head">
+          <div class="track-type-pip"></div>
+          <div class="track-name">Запуск managed Kafka + Schema Registry</div>
+          <span class="track-tag">Фундамент</span>
+        </div>
+        <div class="track-body">
+          <div class="track-section-label">Шаги</div>
+          <ul class="track-items">
+            <li>Развёртывание managed Kafka в облаке</li>
+            <li>Настройка Schema Registry (Avro/Protobuf контракты)</li>
+            <li>Подключение первых двух доменов: Clinical и Corporate</li>
+            <li>Настройка мониторинга и алертинга шины</li>
+          </ul>
+          <div class="track-section-label">Результат</div>
+          <div class="track-result">Event Bus работает. Clinical и Corporate публикуют события. Контракты зафиксированы в Schema Registry.</div>
+          <div class="track-section-label">Ресурсы</div>
+          <ul class="track-items">
+            <li>2 Platform Engineer</li>
+            <li>Managed Kafka (Confluent Cloud или облачный аналог)</li>
+          </ul>
+        </div>
+        <div class="track-footer">
+          <span class="track-team">Platform Engineering</span>
+          <span class="expand-hint">↓ раскрыть</span>
+        </div>
+      </div>
+
+      <div class="track" data-type="found" onclick="toggleTrack(this)">
+        <div class="track-head">
+          <div class="track-type-pip"></div>
+          <div class="track-name">Data Lakehouse: первый слой данных</div>
+          <span class="track-tag">Фундамент</span>
+        </div>
+        <div class="track-body">
+          <div class="track-section-label">Шаги</div>
+          <ul class="track-items">
+            <li>Развёртывание Apache Iceberg + Trino в облаке</li>
+            <li>Настройка Kafka Connect: стриминг событий из шины в Lakehouse</li>
+            <li>Первые dbt-модели: трансформация исторических данных из DWH</li>
+            <li>Валидация качества данных (Great Expectations / dbt tests)</li>
+          </ul>
+          <div class="track-section-label">Результат</div>
+          <div class="track-result">Lakehouse принимает данные из Kafka и исторический слой из DWH. Первые витрины доступны для тестирования.</div>
+          <div class="track-section-label">Ресурсы</div>
+          <ul class="track-items">
+            <li>3 Data Engineer</li>
+            <li>Облачные вычислительные ресурсы (Spark/Trino кластер)</li>
+          </ul>
+        </div>
+        <div class="track-footer">
+          <span class="track-team">Data Platform team</span>
+          <span class="expand-hint">↓ раскрыть</span>
+        </div>
+      </div>
+
+      <div class="track" data-type="quality" onclick="toggleTrack(this)">
+        <div class="track-head">
+          <div class="track-type-pip"></div>
+          <div class="track-name">Изоляция финтех-домена и RBAC</div>
+          <div class="critical-badge">⚠ Критично</div>
+        </div>
+        <div class="track-body">
+          <div class="track-section-label">Шаги</div>
+          <ul class="track-items">
+            <li>Выделение Fintech DB как отдельной облачной БД</li>
+            <li>Миграция финансовых данных из DWH в Fintech DB</li>
+            <li>Внедрение ролевой модели доступа (RBAC) для финансовых данных</li>
+            <li>Аудит-лог всех операций с банковскими данными</li>
+          </ul>
+          <div class="track-section-label">Результат</div>
+          <div class="track-result">Финансовые данные изолированы. RBAC внедрён. Требования ЦБ к изоляции банковских данных выполнены.</div>
+          <div class="track-section-label">Ресурсы</div>
+          <ul class="track-items">
+            <li>Backend Engineer + Security Engineer (Fintech Domain)</li>
+            <li>Облачная PostgreSQL с шифрованием</li>
+          </ul>
+        </div>
+        <div class="track-footer">
+          <span class="track-team">Fintech Domain + Security</span>
+          <span class="expand-hint">↓ раскрыть</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════ ФАЗА 2 -->
+  <div class="phase">
+    <div class="phase-header">
+      <div class="phase-date-block">
+        <div class="phase-num">Фаза 2</div>
+        <div class="phase-period">Месяц 6–9</div>
+        <div class="phase-goal">Цель: запуск портала самообслуживания и независимость доменов</div>
+      </div>
+      <div class="phase-title-block">
+        <div class="phase-title">Самообслуживание и независимость</div>
+        <div class="phase-outcome">Портал запущен в beta. 
+Бизнес-пользователи строят отчёты самостоятельно. ИИ и Fintech работают 
+по независимым циклам релизов. API Gateway заменяет ESB для межсервисных
+ вызовов.</div>
+      </div>
+    </div>
+
+    <div class="tracks">
+
+      <div class="track" data-type="portal" onclick="toggleTrack(this)">
+        <div class="track-head">
+          <div class="track-type-pip"></div>
+          <div class="track-name">Semantic Layer + первые витрины данных</div>
+          <span class="track-tag">Портал</span>
+        </div>
+        <div class="track-body">
+          <div class="track-section-label">Шаги</div>
+          <ul class="track-items">
+            <li>Внедрение Cube.dev поверх Lakehouse</li>
+            <li>Определение 20–30 ключевых бизнес-метрик (выручка, загрузка, KPI)</li>
+            <li>Настройка RBAC по доменам и ролям пользователей</li>
+            <li>Витрины: Clinical (без PHI), Fintech, Corporate</li>
+          </ul>
+          <div class="track-section-label">Результат</div>
+          <div class="track-result">Единые бизнес-метрики определены и доступны через семантический слой. Расхождений в расчётах между командами нет.</div>
+          <div class="track-section-label">Ресурсы</div>
+          <ul class="track-items">
+            <li>Data Analyst + Data Engineer + Product Owner портала</li>
+            <li>Cube.dev (self-hosted или cloud)</li>
+          </ul>
+        </div>
+        <div class="track-footer">
+          <span class="track-team">Data Platform + Business Analysts</span>
+          <span class="expand-hint">↓ раскрыть</span>
+        </div>
+      </div>
+
+      <div class="track" data-type="portal" onclick="toggleTrack(this)">
+        <div class="track-head">
+          <div class="track-type-pip"></div>
+          <div class="track-name">Self-Service Portal: Beta-запуск</div>
+          <span class="track-tag">Портал</span>
+        </div>
+        <div class="track-body">
+          <div class="track-section-label">Шаги</div>
+          <ul class="track-items">
+            <li>Развёртывание Apache Superset</li>
+            <li>Создание предустановленных дашбордов для каждого домена</li>
+            <li>Обучение 20–30 ключевых бизнес-пользователей</li>
+            <li>Сбор обратной связи и итерация</li>
+          </ul>
+          <div class="track-section-label">Результат</div>
+          <div class="track-result">Beta-версия портала доступна. Пользователи строят отчёты без участия IT. Время получения отчёта — минуты вместо часов.</div>
+          <div class="track-section-label">Ресурсы</div>
+          <ul class="track-items">
+            <li>Frontend Engineer + Data Analyst + Change Manager</li>
+            <li>Apache Superset (облачный деплой)</li>
+          </ul>
+        </div>
+        <div class="track-footer">
+          <span class="track-team">Data Platform + UX</span>
+          <span class="expand-hint">↓ раскрыть</span>
+        </div>
+      </div>
+
+      <div class="track" data-type="indep" onclick="toggleTrack(this)">
+        <div class="track-head">
+          <div class="track-type-pip"></div>
+          <div class="track-name">API Gateway: замена межсервисных вызовов ESB</div>
+          <span class="track-tag">Независимость</span>
+        </div>
+        <div class="track-body">
+          <div class="track-section-label">Шаги</div>
+          <ul class="track-items">
+            <li>Развёртывание API Gateway (Kong)</li>
+            <li>Перевод синхронных вызовов (Clinical ↔ AI, Fintech ↔ Clinical) с ESB на Gateway</li>
+            <li>Настройка auth, rate-limiting, трассировки</li>
+            <li>Параллельная работа ESB и Gateway в течение 1 месяца (shadow mode)</li>
+          </ul>
+          <div class="track-section-label">Результат</div>
+          <div class="track-result">Все синхронные межсервисные вызовы идут через API Gateway. ESB больше не используется для новых интеграций.</div>
+          <div class="track-section-label">Ресурсы</div>
+          <ul class="track-items">
+            <li>2 Platform Engineer</li>
+            <li>Kong Gateway (managed cloud)</li>
+          </ul>
+        </div>
+        <div class="track-footer">
+          <span class="track-team">Platform Engineering</span>
+          <span class="expand-hint">↓ раскрыть</span>
+        </div>
+      </div>
+
+      <div class="track" data-type="indep" onclick="toggleTrack(this)">
+        <div class="track-head">
+          <div class="track-type-pip"></div>
+          <div class="track-name">ИИ-домен: независимый цикл релизов</div>
+          <span class="track-tag">Независимость</span>
+        </div>
+        <div class="track-body">
+          <div class="track-section-label">Шаги</div>
+          <ul class="track-items">
+            <li>Выделение AI Service API как самостоятельного сервиса (вне DWH)</li>
+            <li>Запуск MLflow: версионирование моделей и трекинг экспериментов</li>
+            <li>Настройка CI/CD для ML-моделей (автотесты качества модели)</li>
+            <li>Интеграция с PHI Vault через зашифрованный API</li>
+          </ul>
+          <div class="track-section-label">Результат</div>
+          <div class="track-result">ИИ-команда деплоит новые модели без согласования с другими доменами. Скорость обновления модели — дни вместо месяцев.</div>
+          <div class="track-section-label">Ресурсы</div>
+          <ul class="track-items">
+            <li>ML Engineer + MLOps Engineer</li>
+            <li>MLflow (self-hosted) + GPU для обучения (cloud)</li>
+          </ul>
+        </div>
+        <div class="track-footer">
+          <span class="track-team">AI/Medical Domain</span>
+          <span class="expand-hint">↓ раскрыть</span>
+        </div>
+      </div>
+
+      <div class="track" data-type="indep" onclick="toggleTrack(this)">
+        <div class="track-head">
+          <div class="track-type-pip"></div>
+          <div class="track-name">Fintech-домен: Banking Core вне DWH</div>
+          <span class="track-tag">Независимость</span>
+        </div>
+        <div class="track-body">
+          <div class="track-section-label">Шаги</div>
+          <ul class="track-items">
+            <li>Вынос Banking Core и Payment Service из зависимости от DWH</li>
+            <li>Запуск Fraud Detection на Kafka Streams</li>
+            <li>Fintech API: публичный контракт домена</li>
+            <li>Независимый CI/CD пайплайн для финтех-сервисов</li>
+          </ul>
+          <div class="track-section-label">Результат</div>
+          <div class="track-result">Финтех-команда деплоит новые 
+продукты независимо. Fraud Detection работает в реальном времени. 
+Time-to-market для новых финансовых продуктов — недели.</div>
+          <div class="track-section-label">Ресурсы</div>
+          <ul class="track-items">
+            <li>3 Backend Engineer (Java/Golang) + DevOps</li>
+            <li>Kafka Streams + облачный CI/CD (GitHub Actions)</li>
+          </ul>
+        </div>
+        <div class="track-footer">
+          <span class="track-team">Fintech Domain</span>
+          <span class="expand-hint">↓ раскрыть</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════ ФАЗА 3 -->
+  <div class="phase">
+    <div class="phase-header">
+      <div class="phase-date-block">
+        <div class="phase-num">Фаза 3</div>
+        <div class="phase-period">Месяц 10–12</div>
+        <div class="phase-goal">Цель: полный вывод из эксплуатации legacy-систем, масштабирование</div>
+      </div>
+      <div class="phase-title-block">
+        <div class="phase-title">Масштабирование и вывод Legacy</div>
+        <div class="phase-outcome">SQL Server 2008, ESB и PowerBuilder 
+выведены. Портал в prod. Новые бизнес-домены подключаются за 2–4 недели.
+ Все регуляторные требования соблюдены.</div>
+      </div>
+    </div>
+
+    <div class="tracks">
+
+      <div class="track expanded" data-type="portal" onclick="toggleTrack(this)">
+        <div class="track-head">
+          <div class="track-type-pip"></div>
+          <div class="track-name">Self-Service Portal: Production</div>
+          <span class="track-tag">Портал</span>
+        </div>
+        <div class="track-body">
+          <div class="track-section-label">Шаги</div>
+          <ul class="track-items">
+            <li>Полный rollout портала на всех пользователей</li>
+            <li>Подключение витрин всех доменов (включая новых)</li>
+            <li>SLA на время ответа: отчёт любой сложности &lt; 30 секунд</li>
+            <li>Обучение всех бизнес-пользователей (100+ человек)</li>
+          </ul>
+          <div class="track-section-label">Результат</div>
+          <div class="track-result">Любой сотрудник получает отчёт в 
+рамках своего уровня доступа самостоятельно. Зависимость от 
+IT-аналитиков для генерации отчётов устранена.</div>
+          <div class="track-section-label">Ресурсы</div>
+          <ul class="track-items">
+            <li>Data Analyst + Change Manager + Training</li>
+            <li>Масштабирование Trino кластера под нагрузку</li>
+          </ul>
+        </div>
+        <div class="track-footer">
+          <span class="track-team">Data Platform + HR Training</span>
+          <span class="expand-hint">↑ свернуть</span>
+        </div>
+      </div>
+
+      <div class="track expanded" data-type="found" onclick="toggleTrack(this)">
+        <div class="track-head">
+          <div class="track-type-pip"></div>
+          <div class="track-name">Вывод из эксплуатации SQL Server 2008 и ESB</div>
+          <div class="critical-badge">⚠ Критично</div>
+        </div>
+        <div class="track-body">
+          <div class="track-section-label">Шаги</div>
+          <ul class="track-items">
+            <li>Финальная миграция оставшихся данных из DWH в домены и Lakehouse</li>
+            <li>Верификация полноты данных: сравнение DWH vs Lakehouse</li>
+            <li>Отключение всех потребителей от DWH (BI, ИИ, финтех)</li>
+            <li>Отключение маршрутов ESB и перевод на Kafka + API Gateway</li>
+            <li>Архивирование и деком SQL Server 2008</li>
+          </ul>
+          <div class="track-section-label">Результат</div>
+          <div class="track-result">Legacy-инфраструктура выведена. Экономия на поддержке: ~30–40% стоимости on-premise. Нет рисков EOL-систем.</div>
+          <div class="track-section-label">Ресурсы</div>
+          <ul class="track-items">
+            <li>Все команды доменов + Data Engineering</li>
+            <li>4–6 недель на параллельную работу и верификацию</li>
+          </ul>
+        </div>
+        <div class="track-footer">
+          <span class="track-team">All Domains + Platform</span>
+          <span class="expand-hint">↑ свернуть</span>
+        </div>
+      </div>
+
+      <div class="track expanded" data-type="indep" onclick="toggleTrack(this)">
+        <div class="track-head">
+          <div class="track-type-pip"></div>
+          <div class="track-name">Онбординг новых бизнес-доменов</div>
+          <span class="track-tag">Независимость</span>
+        </div>
+        <div class="track-body">
+          <div class="track-section-label">Шаги</div>
+          <ul class="track-items">
+            <li>Разработка Domain Onboarding Playbook (стандартный контракт, шаблоны)</li>
+            <li>Подключение фармацевтического домена (пилот)</li>
+            <li>Подключение производителя медоборудования</li>
+            <li>Автоматизация onboarding: self-service регистрация домена</li>
+          </ul>
+          <div class="track-section-label">Результат</div>
+          <div class="track-result">Новый домен подключается за 2–4 недели по стандартному процессу. Без изменений в ядре архитектуры.</div>
+          <div class="track-section-label">Ресурсы</div>
+          <ul class="track-items">
+            <li>Platform Engineer + Архитектор</li>
+            <li>1 sprint на разработку Playbook</li>
+          </ul>
+        </div>
+        <div class="track-footer">
+          <span class="track-team">Platform Engineering + Architecture</span>
+          <span class="expand-hint">↑ свернуть</span>
+        </div>
+      </div>
+
+      <div class="track expanded" data-type="quality" onclick="toggleTrack(this)">
+        <div class="track-head">
+          <div class="track-type-pip"></div>
+          <div class="track-name">EMR System: замена PowerBuilder</div>
+          <span class="track-tag">Качество</span>
+        </div>
+        <div class="track-body">
+          <div class="track-section-label">Шаги</div>
+          <ul class="track-items">
+            <li>Разработка веб-интерфейса EMR (замена PowerBuilder)</li>
+            <li>Интеграция с Clinical API и PHI Vault</li>
+            <li>Встраивание ИИ-диагностики в интерфейс врача</li>
+            <li>Поэтапный rollout: клиника-пилот → все клиники</li>
+          </ul>
+          <div class="track-section-label">Результат</div>
+          <div class="track-result">Врачи работают в современном веб-интерфейсе с встроенной ИИ-диагностикой. Доступ с любого устройства. PowerBuilder выведен.</div>
+          <div class="track-section-label">Ресурсы</div>
+          <ul class="track-items">
+            <li>2 Frontend + 2 Backend Engineer + UX Designer</li>
+            <li>3–4 месяца разработки + 1 месяц пилота</li>
+          </ul>
+        </div>
+        <div class="track-footer">
+          <span class="track-team">Clinical Domain + Product</span>
+          <span class="expand-hint">↑ свернуть</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div><!-- /timeline -->
+
+<div class="doc-footer">
+  <span class="doc-footer-note">Будущее 2.0 · Архитектурная трансформация · 2025–2026</span>
+  <span class="doc-footer-note">Клик по карточке — развернуть детали</span>
+</div>
+
+<script>
+function toggleTrack(el) {
+  el.classList.toggle('expanded');
+  const hint = el.querySelector('.expand-hint');
+  if (hint) hint.textContent = el.classList.contains('expanded') ? '↑ свернуть' : '↓ раскрыть';
+}
+
+let activeFilter = null;
+function toggleFilter(type) {
+  if (!type || activeFilter === type) {
+    activeFilter = null;
+    document.body.className = '';
+  } else {
+    activeFilter = type;
+    document.body.className = 'filter-' + type;
+  }
+}
+</script>
+
+
+</body></html>

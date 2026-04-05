@@ -1,0 +1,270 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Page-1" id="206m8vbQrbbvG-7Q_Llk">
+    <mxGraphModel dx="4623" dy="3091" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1920" pageHeight="1080" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="p1" parent="1" style="shape=mxgraph.c4.person2;whiteSpace=wrap;html=1;fillColor=#08427B;fontColor=#ffffff;strokeColor=#073B6F;fontSize=11;" value="&lt;b&gt;Бизнес-пользователь&lt;/b&gt;&lt;br/&gt;&lt;i&gt;[Person]&lt;/i&gt;&lt;br/&gt;&lt;br/&gt;Аналитик / менеджер домена." vertex="1">
+          <mxGeometry height="120" width="160" x="-1540" y="1190" as="geometry" />
+        </mxCell>
+        <mxCell id="p2" parent="1" style="shape=mxgraph.c4.person2;whiteSpace=wrap;html=1;fillColor=#08427B;fontColor=#ffffff;strokeColor=#073B6F;fontSize=11;" value="&lt;b&gt;Data Engineer&lt;/b&gt;&lt;br/&gt;&lt;i&gt;[Person]&lt;/i&gt;&lt;br/&gt;&lt;br/&gt;Поддерживает пайплайны." vertex="1">
+          <mxGeometry height="120" width="160" x="-1520" y="970" as="geometry" />
+        </mxCell>
+        <mxCell id="p3" parent="1" style="shape=mxgraph.c4.person2;whiteSpace=wrap;html=1;fillColor=#08427B;fontColor=#ffffff;strokeColor=#073B6F;fontSize=11;" value="&lt;b&gt;Оператор клиники&lt;/b&gt;&lt;br/&gt;&lt;i&gt;[Person]&lt;/i&gt;&lt;br/&gt;&lt;br/&gt;Регистратура, врач." vertex="1">
+          <mxGeometry height="120" width="160" x="-845" y="-120" as="geometry" />
+        </mxCell>
+        <mxCell id="p4" parent="1" style="shape=mxgraph.c4.person2;whiteSpace=wrap;html=1;fillColor=#08427B;fontColor=#ffffff;strokeColor=#073B6F;fontSize=11;" value="&lt;b&gt;Клиент / партнёр банка&lt;/b&gt;&lt;br/&gt;&lt;i&gt;[Person]&lt;/i&gt;&lt;br/&gt;&lt;br/&gt;Использует финансовые сервисы." vertex="1">
+          <mxGeometry height="120" width="160" x="-290" y="1760" as="geometry" />
+        </mxCell>
+        <mxCell id="b_clinical" parent="1" style="swimlane;startSize=30;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;fontStyle=1;whiteSpace=wrap;horizontal=1;" value="Clinical Domain" vertex="1">
+          <mxGeometry height="410" width="620" x="-860" y="110" as="geometry" />
+        </mxCell>
+        <mxCell id="clinical_api" parent="b_clinical" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" value="&lt;b&gt;Clinical API&lt;/b&gt;&lt;br/&gt;&lt;i&gt;[Container: REST / Java]&lt;/i&gt;&lt;br/&gt;&lt;br/&gt;Публичный API домена." vertex="1">
+          <mxGeometry height="120" width="150" x="20" y="260" as="geometry" />
+        </mxCell>
+        <mxCell id="emr" parent="b_clinical" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" value="&lt;b&gt;EMR System&lt;/b&gt;&lt;br/&gt;&lt;i&gt;[Container: Web App]&lt;/i&gt;&lt;br/&gt;&lt;br/&gt;Карты пациентов, расписание." vertex="1">
+          <mxGeometry height="120" width="150" x="20" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="clinic_db" parent="b_clinical" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" value="&lt;b&gt;Clinical DB&lt;/b&gt;&lt;br/&gt;&lt;i&gt;[Container: PostgreSQL]&lt;/i&gt;&lt;br/&gt;&lt;br/&gt;Операционные данные." vertex="1">
+          <mxGeometry height="120" width="150" x="420" y="230" as="geometry" />
+        </mxCell>
+        <mxCell id="phi_vault" parent="b_clinical" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" value="&lt;b&gt;PHI Vault&lt;/b&gt;&lt;br/&gt;&lt;i&gt;[Container: Encrypted Object Storage]&lt;/i&gt;&lt;br/&gt;&lt;br/&gt;Снимки и истории болезней. Только врачи и ИИ." vertex="1">
+          <mxGeometry height="120" width="170" x="420" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="b_ai" parent="1" style="swimlane;startSize=30;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;fontStyle=1;whiteSpace=wrap;horizontal=1;" value="AI/Medical Domain — независимое развитие ИИ" vertex="1">
+          <mxGeometry height="450" width="550" x="1140" y="600" as="geometry" />
+        </mxCell>
+        <mxCell id="ai_api" parent="b_ai" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" value="&lt;b&gt;AI Service API&lt;/b&gt;&lt;br/&gt;&lt;i&gt;[Container: Python / FastAPI]&lt;/i&gt;&lt;br/&gt;&lt;br/&gt;Публичный API домена. Оркестрация ML." vertex="1">
+          <mxGeometry height="120" width="150" x="100" y="290" as="geometry" />
+        </mxCell>
+        <mxCell id="ml_models" parent="b_ai" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" value="&lt;b&gt;ML Models&lt;/b&gt;&lt;br/&gt;&lt;i&gt;[Container: Python / PyTorch]&lt;/i&gt;&lt;br/&gt;&lt;br/&gt;Диагностика по снимкам." vertex="1">
+          <mxGeometry height="120" width="150" x="100" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="ai_db" parent="b_ai" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" value="&lt;b&gt;AI Results DB&lt;/b&gt;&lt;br/&gt;&lt;i&gt;[Container: PostgreSQL]&lt;/i&gt;&lt;br/&gt;&lt;br/&gt;Результаты инференса (без PHI)." vertex="1">
+          <mxGeometry height="120" width="150" x="370" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="b_fintech" parent="1" style="swimlane;startSize=30;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=13;fontStyle=1;whiteSpace=wrap;horizontal=1;" value="Fintech Domain — независимое развитие банка" vertex="1">
+          <mxGeometry height="650" width="690" x="-270" y="1000" as="geometry" />
+        </mxCell>
+        <mxCell id="fintech_api" parent="b_fintech" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" value="&lt;b&gt;Fintech API&lt;/b&gt;&lt;br/&gt;&lt;i&gt;[Container: REST / Java]&lt;/i&gt;&lt;br/&gt;&lt;br/&gt;Публичный API домена." vertex="1">
+          <mxGeometry height="120" width="150" x="20" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="banking_core" parent="b_fintech" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" value="&lt;b&gt;Banking Core&lt;/b&gt;&lt;br/&gt;&lt;i&gt;[Container: Java / Spring Boot]&lt;/i&gt;&lt;br/&gt;&lt;br/&gt;Бизнес-логика банка." vertex="1">
+          <mxGeometry height="120" width="150" x="130" y="300" as="geometry" />
+        </mxCell>
+        <mxCell id="payment_svc" parent="b_fintech" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" value="&lt;b&gt;Payment Service&lt;/b&gt;&lt;br/&gt;&lt;i&gt;[Container: Golang]&lt;/i&gt;&lt;br/&gt;&lt;br/&gt;Процессинг транзакций." vertex="1">
+          <mxGeometry height="120" width="150" x="480" y="290" as="geometry" />
+        </mxCell>
+        <mxCell id="fintech_db" parent="b_fintech" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" value="&lt;b&gt;Fintech DB&lt;/b&gt;&lt;br/&gt;&lt;i&gt;[Container: PostgreSQL]&lt;/i&gt;&lt;br/&gt;&lt;br/&gt;Финансовые данные." vertex="1">
+          <mxGeometry height="120" width="260" x="350" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="fraud" parent="b_fintech" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" value="&lt;b&gt;Fraud Detection&lt;/b&gt;&lt;br/&gt;&lt;i&gt;[Container: Python / Kafka Streams]&lt;/i&gt;&lt;br/&gt;&lt;br/&gt;Real-time скоринг транзакций." vertex="1">
+          <mxGeometry height="120" width="190" x="460" y="480" as="geometry" />
+        </mxCell>
+        <mxCell id="b_corp" parent="1" style="swimlane;startSize=30;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;fontStyle=1;whiteSpace=wrap;horizontal=1;" value="Corporate Domain" vertex="1">
+          <mxGeometry height="470" width="540" x="530" y="1200" as="geometry" />
+        </mxCell>
+        <mxCell id="corp_api" parent="b_corp" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;" value="&lt;b&gt;Corporate API&lt;/b&gt;&lt;br/&gt;&lt;i&gt;[Container: REST]&lt;/i&gt;&lt;br/&gt;&lt;br/&gt;Публичный API домена. KPI, HR." vertex="1">
+          <mxGeometry height="120" width="150" x="20" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="erp" parent="b_corp" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;" value="&lt;b&gt;ERP / HR System&lt;/b&gt;&lt;br/&gt;&lt;i&gt;[Container: SaaS]&lt;/i&gt;&lt;br/&gt;&lt;br/&gt;Персонал, финансовая отчётность." vertex="1">
+          <mxGeometry height="120" width="150" x="370" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="corp_db" parent="b_corp" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;" value="&lt;b&gt;Corporate DB&lt;/b&gt;&lt;br/&gt;&lt;i&gt;[Container: PostgreSQL]&lt;/i&gt;&lt;br/&gt;&lt;br/&gt;Консолидированные данные." vertex="1">
+          <mxGeometry height="120" width="150" x="370" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="b_bus" parent="1" style="swimlane;startSize=30;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;fontSize=13;fontStyle=1;whiteSpace=wrap;horizontal=1;" value="Integration Layer — независимость доменов" vertex="1">
+          <mxGeometry height="350" width="760" x="80" y="270" as="geometry" />
+        </mxCell>
+        <mxCell id="event_bus" parent="b_bus" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;fontSize=11;" value="&lt;b&gt;Event Bus&lt;/b&gt;&lt;br/&gt;&lt;i&gt;[Container: Apache Kafka (managed)]&lt;/i&gt;&lt;br/&gt;&lt;br/&gt;Асинхронные события между доменами. Schema Registry." vertex="1">
+          <mxGeometry height="110" width="330" x="180" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="api_gw" parent="b_bus" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;fontSize=11;" value="&lt;b&gt;API Gateway&lt;/b&gt;&lt;br/&gt;&lt;i&gt;[Container: Kong / Cloud GW]&lt;/i&gt;&lt;br/&gt;&lt;br/&gt;Синхронные API. Auth, rate-limit, роутинг." vertex="1">
+          <mxGeometry height="110" width="330" x="190" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="b_dp" parent="1" style="swimlane;startSize=30;fillColor=#f0f0ff;strokeColor=#7070c0;fontSize=13;fontStyle=1;whiteSpace=wrap;horizontal=1;" value="Data Platform (Cloud) — быстрая отчётность" vertex="1">
+          <mxGeometry height="490" width="740" x="-1070" y="920" as="geometry" />
+        </mxCell>
+        <mxCell id="lakehouse" parent="b_dp" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f0f0ff;strokeColor=#7070c0;fontSize=11;" value="&lt;b&gt;Data Lakehouse&lt;/b&gt;&lt;br/&gt;&lt;i&gt;[Container: Apache Iceberg + Spark / Trino]&lt;/i&gt;&lt;br/&gt;&lt;br/&gt;Единое хранилище. ACID, time travel. Логические витрины." vertex="1">
+          <mxGeometry height="120" width="220" x="460" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="dbt_layer" parent="b_dp" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f0f0ff;strokeColor=#7070c0;fontSize=11;" value="&lt;b&gt;Transformation Layer&lt;/b&gt;&lt;br/&gt;&lt;i&gt;[Container: dbt]&lt;/i&gt;&lt;br/&gt;&lt;br/&gt;Трансформации, тесты качества данных." vertex="1">
+          <mxGeometry height="120" width="210" x="40" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="semantic" parent="b_dp" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f0f0ff;strokeColor=#7070c0;fontSize=11;" value="&lt;b&gt;Semantic Layer&lt;/b&gt;&lt;br/&gt;&lt;i&gt;[Container: Cube.dev / dbt Metrics]&lt;/i&gt;&lt;br/&gt;&lt;br/&gt;Бизнес-метрики. RBAC. Аудит-лог." vertex="1">
+          <mxGeometry height="120" width="210" x="470" y="270" as="geometry" />
+        </mxCell>
+        <mxCell id="portal" parent="b_dp" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f0f0ff;strokeColor=#7070c0;fontSize=11;" value="&lt;b&gt;Self-Service Portal&lt;/b&gt;&lt;br/&gt;&lt;i&gt;[Container: Apache Superset / Metabase]&lt;/i&gt;&lt;br/&gt;&lt;br/&gt;Конструктор отчётов и дашбордов." vertex="1">
+          <mxGeometry height="120" width="220" x="40" y="270" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" edge="1" parent="b_dp" source="portal" style="edgeStyle=orthogonalEdgeStyle;html=1;" target="semantic" value="Запрашивает метрики [SQL/REST]">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="p1" style="edgeStyle=orthogonalEdgeStyle;html=1;" target="portal" value="Строит отчёты [HTTPS]">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="p2" style="edgeStyle=orthogonalEdgeStyle;html=1;" target="dbt_layer" value="Разрабатывает трансформации [CLI/Git]">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="p3" style="edgeStyle=orthogonalEdgeStyle;html=1;" target="emr" value="Карты и расписание [HTTPS]">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="p4" style="edgeStyle=orthogonalEdgeStyle;html=1;" target="fintech_api" value="Банковские операции [HTTPS]">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-210" y="1820" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e7" edge="1" parent="1" source="semantic" style="edgeStyle=orthogonalEdgeStyle;html=1;" target="lakehouse" value="Читает витрины [SQL/Trino]">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-490" y="1180" />
+              <mxPoint x="-500" y="1180" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e8" edge="1" parent="1" source="dbt_layer" style="edgeStyle=orthogonalEdgeStyle;html=1;" target="lakehouse" value="Трансформирует [SQL/Spark]">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e10" edge="1" parent="1" source="api_gw" style="edgeStyle=orthogonalEdgeStyle;html=1;" target="ai_api" value="Маршрутизирует [REST]">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="625" y="950" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e11" edge="1" parent="1" source="api_gw" style="edgeStyle=orthogonalEdgeStyle;html=1;startArrow=classic;startFill=1;" target="fintech_api" value="Общение по REST">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="30" y="530" />
+              <mxPoint x="30" y="1160" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e12" edge="1" parent="1" source="api_gw" style="edgeStyle=orthogonalEdgeStyle;html=1;" target="corp_api" value="Маршрутизирует [REST]">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="625" y="525" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e14" edge="1" parent="1" source="clinical_api" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;endFill=1;startArrow=classic;startFill=1;" target="api_gw" value="Общение по API(REST)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-765" y="530" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e15" edge="1" parent="1" source="clinic_db" style="edgeStyle=orthogonalEdgeStyle;html=1;" target="event_bus" value="События [Kafka]">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-240" y="390" />
+              <mxPoint x="-240" y="390" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e16" edge="1" parent="1" source="fintech_db" style="edgeStyle=orthogonalEdgeStyle;html=1;" target="event_bus" value="События [Kafka]">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="155" y="1060" />
+              <mxPoint x="80" y="1060" />
+              <mxPoint x="80" y="385" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e17" edge="1" parent="1" source="corp_db" style="edgeStyle=orthogonalEdgeStyle;html=1;" target="event_bus" value="События [Kafka]">
+          <mxGeometry relative="1" x="-0.2134" y="20" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="920" y="385" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e18" edge="1" parent="1" source="ai_db" style="edgeStyle=orthogonalEdgeStyle;html=1;" target="event_bus" value="Агрегаты без PHI [Kafka]">
+          <mxGeometry relative="1" x="0.0005" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="920" y="680" />
+              <mxPoint x="920" y="385" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e20" edge="1" parent="1" source="event_bus" style="edgeStyle=orthogonalEdgeStyle;html=1;" target="lakehouse" value="Стримит события [Kafka Connect/CDC]">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-100" y="390" />
+              <mxPoint x="-100" y="680" />
+              <mxPoint x="-500" y="680" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e21" edge="1" parent="1" source="clinical_api" style="edgeStyle=orthogonalEdgeStyle;html=1;" target="emr" value="Делегирует [internal]">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e22" edge="1" parent="1" source="emr" style="edgeStyle=orthogonalEdgeStyle;html=1;" target="clinic_db" value="Читает/пишет [SQL]">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-565" y="390" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e23" edge="1" parent="1" source="emr" style="edgeStyle=orthogonalEdgeStyle;html=1;" target="phi_vault" value="Читает/пишет PHI [Encrypted API]">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-470" y="200" />
+              <mxPoint x="-470" y="200" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e24" edge="1" parent="1" source="ai_api" style="edgeStyle=orthogonalEdgeStyle;html=1;" target="phi_vault" value="Получает снимки [Encrypted API]">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1780" y="980" />
+              <mxPoint x="1780" y="160" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e25" edge="1" parent="1" source="ai_api" style="edgeStyle=orthogonalEdgeStyle;html=1;" target="ml_models" value="Запускает инференс [gRPC]">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e26" edge="1" parent="1" source="ai_api" style="edgeStyle=orthogonalEdgeStyle;html=1;" target="ai_db" value="Сохраняет результаты [SQL]">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1585" y="920" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e27" edge="1" parent="1" source="fintech_api" style="edgeStyle=orthogonalEdgeStyle;html=1;" target="banking_core" value="Делегирует [internal]">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e28" edge="1" parent="1" source="banking_core" style="edgeStyle=orthogonalEdgeStyle;html=1;" target="fintech_db" value="Читает/пишет [SQL]">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="140" y="1360" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e29" edge="1" parent="1" source="payment_svc" style="edgeStyle=orthogonalEdgeStyle;html=1;" target="fintech_db" value="Читает/пишет [SQL]">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="290" y="1290" />
+              <mxPoint x="280" y="1290" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e30" edge="1" parent="1" source="payment_svc" style="edgeStyle=orthogonalEdgeStyle;html=1;" target="fraud" value="Транзакция на скоринг [Kafka]">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e31" edge="1" parent="1" source="corp_api" style="edgeStyle=orthogonalEdgeStyle;html=1;" target="erp" value="Делегирует [internal]">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e32" edge="1" parent="1" source="erp" style="edgeStyle=orthogonalEdgeStyle;html=1;" target="corp_db" value="Читает/пишет [SQL]">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,0 +1,123 @@
+@startuml infra_terraform
+!theme plain
+skinparam defaultFontName Arial
+skinparam defaultFontSize 12
+skinparam ArrowColor #555555
+skinparam ArrowThickness 1.2
+skinparam RectangleBorderThickness 1.5
+skinparam NoteBorderThickness 1
+
+title Компонентная схема облачной инфраструктуры — «Будущее 2.0»
+
+' ─────────────────────────────────────────────
+' Легенда
+' ─────────────────────────────────────────────
+legend right
+  |= Цвет |= Управление |
+  |<#D5E8D4> Зелёный | Terraform |
+  |<#FFEB9C> Жёлтый  | Вручную   |
+endlegend
+
+' ─────────────────────────────────────────────
+' ОБЛАКО
+' ─────────────────────────────────────────────
+rectangle "Облачный провайдер" as cloud #F8F8F8 {
+
+  ' ── СЕТЬ ──────────────────────────────────
+  rectangle "Виртуальная сеть (VPC)" as vpc #D5E8D4 {
+
+    rectangle "Подсеть: Публичная" as pub_subnet #D5E8D4 {
+      rectangle "NAT-шлюз" as nat #D5E8D4
+      rectangle "Балансировщик нагрузки\n(Application LB)" as alb #D5E8D4
+    }
+
+    rectangle "Подсеть: Приватная — Приложения" as app_subnet #D5E8D4 {
+      rectangle "Группа ВМ: API Gateway\n(2+ инстанса)" as apigw_vm #D5E8D4
+      rectangle "Группа ВМ: Kafka\n(3 брокера)" as kafka_vm #D5E8D4
+      rectangle "Группа ВМ: Приложения доменов\n(Clinical, Fintech, AI, Corporate)" as app_vm #D5E8D4
+    }
+
+    rectangle "Подсеть: Приватная — Данные" as data_subnet #D5E8D4 {
+      rectangle "Управляемый PostgreSQL\n(кластер на каждый домен)" as pg #D5E8D4
+      rectangle "Объектное хранилище\n(Lakehouse / PHI Vault)" as s3 #D5E8D4
+    }
+
+    rectangle "Подсеть: Управление" as mgmt_subnet #D5E8D4 {
+      rectangle "ВМ: Bastion-хост" as bastion #D5E8D4
+      rectangle "ВМ: Мониторинг\n(Prometheus + Grafana)" as monitoring #D5E8D4
+    }
+  }
+
+  ' ── ГРУППЫ БЕЗОПАСНОСТИ ───────────────────
+  rectangle "Группы безопасности (Firewall-правила)" as sg #D5E8D4
+
+  ' ── DNS ───────────────────────────────────
+  rectangle "DNS-зоны" as dns #D5E8D4
+
+  ' ── SSL-СЕРТИФИКАТЫ ───────────────────────
+  rectangle "SSL-сертификаты" as ssl #FFEB9C
+
+  ' ── СЕКРЕТЫ ───────────────────────────────
+  rectangle "Хранилище секретов\n(пароли, ключи)" as secrets #FFEB9C
+
+  ' ── УЧЁТНЫЕ ЗАПИСИ ─────────────────────────
+  rectangle "Сервисные аккаунты\nи права доступа (IAM)" as iam #FFEB9C
+
+}
+
+' ─────────────────────────────────────────────
+' TERRAFORM STATE
+' ─────────────────────────────────────────────
+rectangle "Объектное хранилище\n(состояние Terraform)" as tf_state #D5E8D4
+
+' ─────────────────────────────────────────────
+' CI/CD
+' ─────────────────────────────────────────────
+rectangle "CI/CD-пайплайн\n(GitHub Actions / GitLab CI)" as cicd #FFEB9C
+
+' ─────────────────────────────────────────────
+' РАЗРАБОТЧИК
+' ─────────────────────────────────────────────
+actor "Инженер\n(terraform apply)" as engineer
+
+' ─────────────────────────────────────────────
+' СВЯЗИ
+' ─────────────────────────────────────────────
+engineer --> cicd : "коммит в репозиторий"
+cicd --> cloud : "terraform apply"
+cicd --> tf_state : "читает / пишет состояние"
+
+alb --> apigw_vm : "трафик"
+apigw_vm --> app_vm : "запросы к сервисам"
+app_vm --> pg : "SQL"
+app_vm --> s3 : "данные"
+app_vm --> kafka_vm : "события"
+nat --> apigw_vm : "исходящий трафик"
+bastion --> app_vm : "SSH (только из\nподсети управления)"
+
+sg --> vpc : "применяется к подсетям"
+ssl --> alb : "подключается вручную"
+iam --> cloud : "применяется вручную"
+secrets --> app_vm : "секреты передаются\nпри деплое"
+
+note right of ssl
+  Выпускается через консоль
+  провайдера или Let's Encrypt.
+  Первый раз — вручную.
+end note
+
+note right of iam
+  Роли и права создаются
+  по принципу минимальных
+  привилегий. Один раз вручную,
+  далее — через документ.
+end note
+
+note right of secrets
+  Пароли БД, API-ключи.
+  Вводятся вручную в
+  хранилище секретов.
+  Terraform их не хранит.
+end note
+
+@enduml
