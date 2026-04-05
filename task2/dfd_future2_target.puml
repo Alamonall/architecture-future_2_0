@@ -1,0 +1,92 @@
+@startuml dfd_future2_target
+!theme plain
+skinparam defaultFontName Arial
+skinparam defaultFontSize 12
+skinparam ArrowColor #444444
+skinparam ArrowThickness 1.5
+
+skinparam rectangle {
+    BackgroundColor #f5f5f5
+    BorderColor #444444
+    FontStyle bold
+}
+
+' ══════════════════════════════════════════════
+' ВНЕШНИЕ СУЩНОСТИ
+' ══════════════════════════════════════════════
+actor "Пациент /\nОператор клиники" as patient
+actor "Клиент банка /\nПартнёр" as bank_client
+actor "Бизнес-пользователь\n(аналитик, менеджер)" as biz_user
+actor "Новый бизнес-домен\n(фармацевтика и др.)" as new_biz
+
+' ══════════════════════════════════════════════
+' ДОМЕНЫ (процессы)
+' ══════════════════════════════════════════════
+rectangle "**Clinical Domain**\n─────────────────\nEMR System\nClinical API\nClinical DB\nPHI Vault" as clinical #dae8fc
+rectangle "**AI/Medical Domain**\n─────────────────\nAI Service API\nML Models\nAI Results DB" as ai #d5e8d4
+rectangle "**Fintech Domain**\n─────────────────\nFintech API\nBanking Core\nPayment Service\nFraud Detection\nFintech DB" as fintech #fff2cc
+rectangle "**Corporate Domain**\n─────────────────\nCorporate API\nERP / HR System\nCorporate DB" as corporate #f8cecc
+rectangle "**New Business Domain**\n─────────────────\nDomain API\nDomain DB" as newdomain #e1d5e7
+
+' ══════════════════════════════════════════════
+' ИНТЕГРАЦИОННЫЙ СЛОЙ
+' ══════════════════════════════════════════════
+rectangle "**Integration Layer**\n─────────────────\nAPI Gateway\nEvent Bus (Kafka)" as integration #f0f0f0
+
+' ══════════════════════════════════════════════
+' DATA PLATFORM
+' ══════════════════════════════════════════════
+rectangle "**Data Platform**\n─────────────────\nData Lakehouse\ndbt\nSemantic Layer\nSelf-Service Portal" as dataplatform #e8e8ff
+
+' ══════════════════════════════════════════════
+' ПОТОКИ: ВНЕШНИЕ СУЩНОСТИ → ДОМЕНЫ
+' ══════════════════════════════════════════════
+patient --> clinical : "Запись на приём,\nданные визита"
+bank_client --> fintech : "Банковские операции,\nзаявки на кредит"
+biz_user --> dataplatform : "Запрос отчёта /\nдашборда"
+new_biz --> integration : "Регистрация домена\nпо API-контракту"
+
+' ══════════════════════════════════════════════
+' ПОТОКИ: ДОМЕНЫ → ИНТЕГРАЦИОННЫЙ СЛОЙ
+' ══════════════════════════════════════════════
+
+' [Сценарий: ИИ-анализ медицинских данных]
+clinical --> integration : "Запрос ИИ-диагностики\n[синхронный, API GW]"
+integration --> ai : "Снимки и данные\nпациента (encrypted)"
+ai --> integration : "Результат диагностики"
+integration --> clinical : "Результат → врачу"
+
+' [Сценарий: интеграция финтех-сервиса с клиниками]
+fintech --> integration : "Запрос данных\nо визите пациента\n[синхронный, API GW]"
+integration --> clinical : "Агрегированные\nданные визита\n(без PHI)"
+
+' [Сценарий: подключение нового домена]
+newdomain --> integration : "События домена\n[Kafka Producer]"
+integration --> newdomain : "События других\nдоменов [Kafka Consumer]"
+
+' ══════════════════════════════════════════════
+' ПОТОКИ: ДОМЕНЫ → DATA PLATFORM (аналитика)
+' [Сценарий: быстрая отчётность]
+' ══════════════════════════════════════════════
+clinical --> integration : "Операционные события\n[Kafka, CDC]"
+fintech --> integration : "Финансовые события\n[Kafka, CDC]"
+corporate --> integration : "Корп. события\n[Kafka, CDC]"
+ai --> integration : "Агрегаты инференса\n(без PHI) [Kafka]"
+newdomain --> integration : "События домена\n[Kafka]"
+integration --> dataplatform : "Все события →\nData Lakehouse\n[Kafka Connect]"
+
+dataplatform --> biz_user : "Отчёт / дашборд\n(в рамках RBAC)"
+
+' ══════════════════════════════════════════════
+' ПОТОКИ: CORPORATE ↔ ДРУГИЕ ДОМЕНЫ
+' ══════════════════════════════════════════════
+clinical --> integration : "Данные персонала\nклиник [Kafka]"
+fintech --> integration : "Финансовая\nотчётность [Kafka]"
+integration --> corporate : "Консолидированные\nданные для KPI"
+
+' ══════════════════════════════════════════════
+' ПОТОКИ: FRAUD DETECTION (внутри fintech)
+' ══════════════════════════════════════════════
+fintech --> fintech : "Транзакция →\nFraud Detection\n[Kafka Streams]"
+
+@enduml

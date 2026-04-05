@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="ru"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tech Radar — Будущее 2.0</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+  :root {
+    --bg: #F8F8F8;
+    --surface: #FFFFFF;
+    --border: #E0E0E0;
+    --text: #1A1A1A;
+    --muted: #757575;
+    --use:    #5DB85C;
+    --trial:  #3B8BEB;
+    --assess: #F4A427;
+    --hold:   #E05C4B;
+    --use-fill:    rgba(93,184,92,0.10);
+    --trial-fill:  rgba(59,139,235,0.08);
+    --assess-fill: rgba(244,164,39,0.08);
+    --hold-fill:   rgba(224,92,75,0.08);
+    --q0: #E8F4FD;
+    --q1: #FEF9EC;
+    --q2: #EDF7ED;
+    --q3: #FDF0EE;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: #1F1F1F;
+    padding: 0 32px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .header-logo {
+    font-size: 15px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -0.3px;
+  }
+
+  .header-logo span { color: #1ED760; }
+
+  .header-sep {
+    width: 1px;
+    height: 20px;
+    background: #444;
+  }
+
+  .header-title {
+    font-size: 13px;
+    color: #aaa;
+    font-weight: 500;
+  }
+
+  .header-meta {
+    font-size: 11px;
+    color: #666;
+  }
+
+  /* ── LAYOUT ── */
+  .layout {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    min-height: calc(100vh - 56px);
+  }
+
+  /* ── RADAR AREA ── */
+  .radar-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 32px 24px;
+    gap: 20px;
+  }
+
+  .radar-wrap {
+    position: relative;
+    width: 100%;
+    max-width: 680px;
+  }
+
+  svg#radar {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* quadrant labels above radar */
+  .quad-labels {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+    max-width: 680px;
+    gap: 8px;
+  }
+
+  .quad-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 6px 12px;
+    border-radius: 4px;
+    text-align: center;
+  }
+
+  /* ── RING LEGEND (below radar) ── */
+  .ring-legend {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+  }
+
+  .ring-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  .ring-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+  }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    background: var(--surface);
+    border-left: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .sidebar-search {
+    padding: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .search-input {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-family: inherit;
+    font-size: 13px;
+    color: var(--text);
+    outline: none;
+  }
+
+  .search-input:focus { border-color: #1F1F1F; }
+  .search-input::placeholder { color: var(--muted); }
+
+  /* card */
+  .card-wrap {
+    padding: 16px;
+    border-bottom: 1px solid var(--border);
+    min-height: 180px;
+  }
+
+  .card-empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 140px;
+    color: var(--muted);
+    font-size: 12px;
+    text-align: center;
+    line-height: 1.7;
+  }
+
+  .card { display: none; }
+  .card.active { display: block; }
+
+  .card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+
+  .card-name {
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+
+  .ring-badge {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 9px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .badge-use    { background: rgba(93,184,92,.15);  color: var(--use); }
+  .badge-trial  { background: rgba(59,139,235,.15); color: var(--trial); }
+  .badge-assess { background: rgba(244,164,39,.15); color: var(--assess); }
+  .badge-hold   { background: rgba(224,92,75,.15);  color: var(--hold); }
+
+  .card-cat {
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 10px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .card-desc {
+    font-size: 12px;
+    color: #444;
+    line-height: 1.7;
+    margin-bottom: 12px;
+  }
+
+  .card-legacy {
+    font-size: 11px;
+    padding: 6px 10px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    font-weight: 500;
+  }
+
+  .card-legacy.legacy { background: #FEF3CD; color: #856404; border: 1px solid #fde68a; }
+  .card-legacy.new    { background: #D1FAE5; color: #065F46; border: 1px solid #a7f3d0; }
+
+  .scenarios-title {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 6px;
+  }
+
+  .scenario-tag {
+    display: inline-block;
+    font-size: 11px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 3px 8px;
+    margin: 2px 2px 0 0;
+    color: #444;
+  }
+
+  /* tabs + list */
+  .tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border);
+    padding: 0 16px;
+    gap: 0;
+  }
+
+  .tab {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted);
+    padding: 10px 12px;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all .15s;
+    white-space: nowrap;
+  }
+
+  .tab.active {
+    color: var(--text);
+    border-bottom-color: #1F1F1F;
+  }
+
+  .tech-list {
+    overflow-y: auto;
+    flex: 1;
+  }
+
+  .list-group { }
+
+  .list-group-title {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    padding: 10px 16px 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .list-group-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .list-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 16px;
+    cursor: pointer;
+    transition: background .1s;
+    border-radius: 0;
+  }
+
+  .list-row:hover { background: var(--bg); }
+  .list-row.selected { background: #EEF2FF; }
+
+  .list-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .list-dot.legacy-tri {
+    width: 0;
+    height: 0;
+    border-radius: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 9px solid currentColor;
+    background: none !important;
+  }
+
+  .list-name {
+    font-size: 12px;
+    font-weight: 500;
+    flex: 1;
+    color: var(--text);
+  }
+
+  .list-quad {
+    font-size: 10px;
+    color: var(--muted);
+  }
+
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <div class="header-logo">TECH<span>RADAR</span></div>
+    <div class="header-sep"></div>
+    <div class="header-title">Будущее 2.0 · Архитектурная трансформация</div>
+  </div>
+  <div class="header-meta">2025 – 2026</div>
+</div>
+
+<div class="layout">
+
+  <!-- RADAR -->
+  <div class="radar-area">
+    <svg id="radar" viewBox="-340 -340 680 680" xmlns="http://www.w3.org/2000/svg"><path d="M0,0 L1.9594348786357652e-14,-320 A320,320 0 0,1 320,0 Z" fill="#EBF4FF" opacity="0.5"></path><path d="M0,0 L320,0 A320,320 0 0,1 1.9594348786357652e-14,320 Z" fill="#FEF9EB" opacity="0.5"></path><path d="M0,0 L1.9594348786357652e-14,320 A320,320 0 0,1 -320,3.9188697572715304e-14 Z" fill="#EDF7ED" opacity="0.5"></path><path d="M0,0 L-320,3.9188697572715304e-14 A320,320 0 0,1 -5.878304635907295e-14,-320 Z" fill="#FEF0EE" opacity="0.5"></path><circle cx="0" cy="0" r="320" fill="none" stroke="#E05C4B" stroke-width="1" stroke-dasharray="4 3" opacity="0.4"></circle><circle cx="0" cy="0" r="240" fill="none" stroke="#F4A427" stroke-width="1" stroke-dasharray="4 3" opacity="0.4"></circle><circle cx="0" cy="0" r="160" fill="none" stroke="#3B8BEB" stroke-width="1" stroke-dasharray="4 3" opacity="0.4"></circle><circle cx="0" cy="0" r="80" fill="none" stroke="#5DB85C" stroke-width="1" stroke-dasharray="4 3" opacity="0.4"></circle><line x1="0" y1="0" x2="325" y2="0" stroke="#ccc" stroke-width="1"></line><line x1="0" y1="0" x2="1.990051048614449e-14" y2="325" stroke="#ccc" stroke-width="1"></line><line x1="0" y1="0" x2="-325" y2="3.980102097228898e-14" stroke="#ccc" stroke-width="1"></line><line x1="0" y1="0" x2="-5.970153145843346e-14" y2="-325" stroke="#ccc" stroke-width="1"></line><text x="4" y="-35" fill="#5DB85C" font-size="10" font-family="Inter,sans-serif" font-weight="600" opacity="0.8" letter-spacing="0.05em">Use</text><text x="4" y="-115" fill="#3B8BEB" font-size="10" font-family="Inter,sans-serif" font-weight="600" opacity="0.8" letter-spacing="0.05em">Trial</text><text x="4" y="-195" fill="#F4A427" font-size="10" font-family="Inter,sans-serif" font-weight="600" opacity="0.8" letter-spacing="0.05em">Assess</text><text x="4" y="-275" fill="#E05C4B" font-size="10" font-family="Inter,sans-serif" font-weight="600" opacity="0.8" letter-spacing="0.05em">Hold</text><text x="0" y="-335" fill="#3B8BEB" font-size="11" font-family="Inter,sans-serif" font-weight="700" text-anchor="middle" letter-spacing="0.08em" text-transform="uppercase">Платформы</text><text x="335" y="12" fill="#F4A427" font-size="11" font-family="Inter,sans-serif" font-weight="700" text-anchor="start" letter-spacing="0.08em" text-transform="uppercase">Интеграция</text><text x="0" y="348" fill="#5DB85C" font-size="11" font-family="Inter,sans-serif" font-weight="700" text-anchor="middle" letter-spacing="0.08em" text-transform="uppercase">Аналитика</text><text x="-335" y="12" fill="#E05C4B" font-size="11" font-family="Inter,sans-serif" font-weight="700" text-anchor="end" letter-spacing="0.08em" text-transform="uppercase">Методологии</text><g transform="translate(27.577164466275356,27.577164466275352)" cursor="pointer" class="blip-g" data-id="kafka" style="opacity: 1;"><circle cx="0" cy="0" r="7" fill="#5DB85C" stroke="white" stroke-width="1.5" opacity="0.9"></circle><title>Apache Kafka</title></g><g transform="translate(5.090521496582017,-38.6663495935786)" cursor="pointer" class="blip-g" data-id="iceberg" style="opacity: 1;"><circle cx="0" cy="0" r="7" fill="#5DB85C" stroke="white" stroke-width="1.5" opacity="0.9"></circle><title>Apache Iceberg</title></g><g transform="translate(47.272090990303276,-6.223488845052059)" cursor="pointer" class="blip-g" data-id="postgresql" style="opacity: 1;"><circle cx="0" cy="0" r="7" fill="#5DB85C" stroke="white" stroke-width="1.5" opacity="0.9"></circle><title>PostgreSQL (Cloud)</title></g><g transform="translate(-27.577164466275352,27.577164466275356)" cursor="pointer" class="blip-g" data-id="dbt" style="opacity: 1;"><circle cx="0" cy="0" r="7" fill="#5DB85C" stroke="white" stroke-width="1.5" opacity="0.9"></circle><title>dbt</title></g><g transform="translate(-38.66634959357861,-5.090521496582002)" cursor="pointer" class="blip-g" data-id="datamesh" style="opacity: 1;"><circle cx="0" cy="0" r="7" fill="#5DB85C" stroke="white" stroke-width="1.5" opacity="0.9"></circle><title>Data Mesh</title></g><g transform="translate(-33.714851326974596,-33.71485132697458)" cursor="pointer" class="blip-g" data-id="ddd" style="opacity: 1;"><circle cx="0" cy="0" r="7" fill="#5DB85C" stroke="white" stroke-width="1.5" opacity="0.9"></circle><title>Domain-Driven Design</title></g><g transform="translate(-5.090521496582014,-38.6663495935786)" cursor="pointer" class="blip-g" data-id="rbac" style="opacity: 1;"><circle cx="0" cy="0" r="7" fill="#5DB85C" stroke="white" stroke-width="1.5" opacity="0.9"></circle><title>RBAC + Audit Log</title></g><g transform="translate(15.663143066406205,-118.97338336485724)" cursor="pointer" class="blip-g" data-id="trino" style="opacity: 1;"><circle cx="0" cy="0" r="7" fill="#3B8BEB" stroke="white" stroke-width="1.5" opacity="0.9"></circle><title>Trino / Spark</title></g><g transform="translate(90.79251070435271,-90.7925107043527)" cursor="pointer" class="blip-g" data-id="mlflow" style="opacity: 1;"><circle cx="0" cy="0" r="7" fill="#3B8BEB" stroke="white" stroke-width="1.5" opacity="0.9"></circle><title>MLflow</title></g><g transform="translate(118.97338336485724,-15.663143066406189)" cursor="pointer" class="blip-g" data-id="cloud" style="opacity: 1;"><circle cx="0" cy="0" r="7" fill="#3B8BEB" stroke="white" stroke-width="1.5" opacity="0.9"></circle><title>Cloud Infrastructure</title></g><g transform="translate(118.97338336485724,15.663143066406189)" cursor="pointer" class="blip-g" data-id="apigw" style="opacity: 1;"><circle cx="0" cy="0" r="7" fill="#3B8BEB" stroke="white" stroke-width="1.5" opacity="0.9"></circle><title>API Gateway</title></g><g transform="translate(16.75956308105464,127.30152020039726)" cursor="pointer" class="blip-g" data-id="cdc" style="opacity: 1;"><circle cx="0" cy="0" r="7" fill="#3B8BEB" stroke="white" stroke-width="1.5" opacity="0.9"></circle><title>Kafka Connect / CDC</title></g><g transform="translate(-15.663143066406166,118.97338336485726)" cursor="pointer" class="blip-g" data-id="superset" style="opacity: 1;"><circle cx="0" cy="0" r="7" fill="#3B8BEB" stroke="white" stroke-width="1.5" opacity="0.9"></circle><title>Apache Superset</title></g><g transform="translate(-127.30152020039726,16.759563081054623)" cursor="pointer" class="blip-g" data-id="cube" style="opacity: 1;"><circle cx="0" cy="0" r="7" fill="#3B8BEB" stroke="white" stroke-width="1.5" opacity="0.9"></circle><title>Cube.dev</title></g><g transform="translate(-141.42135623730954,-141.42135623730948)" cursor="pointer" class="blip-g" data-id="datacontract" style="opacity: 1;"><circle cx="0" cy="0" r="7" fill="#F4A427" stroke="white" stroke-width="1.5" opacity="0.9"></circle><title>Data Contract</title></g><g transform="translate(-141.42135623730948,141.4213562373095)" cursor="pointer" class="blip-g" data-id="openlineage" style="opacity: 1;"><circle cx="0" cy="0" r="7" fill="#F4A427" stroke="white" stroke-width="1.5" opacity="0.9"></circle><title>OpenLineage / Atlas</title></g><g transform="translate(141.4213562373095,141.42135623730948)" cursor="pointer" class="blip-g" data-id="fastapi" style="opacity: 1;"><circle cx="0" cy="0" r="7" fill="#F4A427" stroke="white" stroke-width="1.5" opacity="0.9"></circle><title>FastAPI</title></g><g transform="translate(197.9898987322333,-197.98989873223329)" cursor="pointer" class="blip-g" data-id="sqlserver" style="opacity: 1;"><polygon points="0,-8 7,5 -7,5" fill="#E05C4B" stroke="white" stroke-width="1.5" opacity="0.9"></polygon><title>MS SQL Server 2008</title></g><g transform="translate(-36.54733382161439,277.6045611846669)" cursor="pointer" class="blip-g" data-id="powerbuilder" style="opacity: 1;"><polygon points="0,-8 7,5 -7,5" fill="#E05C4B" stroke="white" stroke-width="1.5" opacity="0.9"></polygon><title>PowerBuilder</title></g><g transform="translate(-285.9326980202069,37.643753836262874)" cursor="pointer" class="blip-g" data-id="powerbi_old" style="opacity: 1;"><polygon points="0,-8 7,5 -7,5" fill="#E05C4B" stroke="white" stroke-width="1.5" opacity="0.9"></polygon><title>Power BI → DWH</title></g><g transform="translate(197.9898987322333,197.98989873223329)" cursor="pointer" class="blip-g" data-id="esb" style="opacity: 1;"><polygon points="0,-8 7,5 -7,5" fill="#E05C4B" stroke="white" stroke-width="1.5" opacity="0.9"></polygon><title>Apache Camel ESB</title></g></svg>
+    <div class="ring-legend" id="ring-legend"><div class="ring-legend-item"><div class="ring-dot" style="background:#5DB85C"></div>Use</div><div class="ring-legend-item"><div class="ring-dot" style="background:#3B8BEB"></div>Trial</div><div class="ring-legend-item"><div class="ring-dot" style="background:#F4A427"></div>Assess</div><div class="ring-legend-item"><div class="ring-dot" style="background:#E05C4B"></div>Hold</div><div class="ring-legend-item"><svg width="12" height="10" viewBox="0 0 12 10"><polygon points="6,0 12,10 0,10" fill="#888"></polygon></svg><span style="color:#888">Legacy</span></div></div>
+  </div>
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sidebar-search">
+      <input class="search-input" type="text" id="search" placeholder="Поиск технологий...">
+    </div>
+
+    <div class="card-wrap" id="card-wrap">
+      <div class="card-empty">← Выберите технологию<br>на радаре или в списке</div>
+    </div>
+
+    <div class="tabs" id="tabs"><div class="tab active">Все</div><div class="tab">Платформы</div><div class="tab">Интеграция</div><div class="tab">Аналитика</div><div class="tab">Методологии</div></div>
+
+    <div class="tech-list" id="tech-list"><div class="list-group-title" style="color: rgb(93, 184, 92);">Use</div><div class="list-row" data-id="kafka">
+          <div class="list-dot" style="background:#5DB85C"></div>
+          <span class="list-name">Apache Kafka</span>
+          <span class="list-quad">Интеграция</span>
+        </div><div class="list-row" data-id="iceberg">
+          <div class="list-dot" style="background:#5DB85C"></div>
+          <span class="list-name">Apache Iceberg</span>
+          <span class="list-quad">Платформы</span>
+        </div><div class="list-row" data-id="postgresql">
+          <div class="list-dot" style="background:#5DB85C"></div>
+          <span class="list-name">PostgreSQL (Cloud)</span>
+          <span class="list-quad">Платформы</span>
+        </div><div class="list-row" data-id="dbt">
+          <div class="list-dot" style="background:#5DB85C"></div>
+          <span class="list-name">dbt</span>
+          <span class="list-quad">Аналитика</span>
+        </div><div class="list-row" data-id="datamesh">
+          <div class="list-dot" style="background:#5DB85C"></div>
+          <span class="list-name">Data Mesh</span>
+          <span class="list-quad">Методологии</span>
+        </div><div class="list-row" data-id="ddd">
+          <div class="list-dot" style="background:#5DB85C"></div>
+          <span class="list-name">Domain-Driven Design</span>
+          <span class="list-quad">Методологии</span>
+        </div><div class="list-row" data-id="rbac">
+          <div class="list-dot" style="background:#5DB85C"></div>
+          <span class="list-name">RBAC + Audit Log</span>
+          <span class="list-quad">Методологии</span>
+        </div><div class="list-group-title" style="color: rgb(59, 139, 235);">Trial</div><div class="list-row" data-id="trino">
+          <div class="list-dot" style="background:#3B8BEB"></div>
+          <span class="list-name">Trino / Spark</span>
+          <span class="list-quad">Платформы</span>
+        </div><div class="list-row" data-id="apigw">
+          <div class="list-dot" style="background:#3B8BEB"></div>
+          <span class="list-name">API Gateway</span>
+          <span class="list-quad">Интеграция</span>
+        </div><div class="list-row" data-id="cdc">
+          <div class="list-dot" style="background:#3B8BEB"></div>
+          <span class="list-name">Kafka Connect / CDC</span>
+          <span class="list-quad">Интеграция</span>
+        </div><div class="list-row" data-id="superset">
+          <div class="list-dot" style="background:#3B8BEB"></div>
+          <span class="list-name">Apache Superset</span>
+          <span class="list-quad">Аналитика</span>
+        </div><div class="list-row" data-id="cube">
+          <div class="list-dot" style="background:#3B8BEB"></div>
+          <span class="list-name">Cube.dev</span>
+          <span class="list-quad">Аналитика</span>
+        </div><div class="list-row" data-id="mlflow">
+          <div class="list-dot" style="background:#3B8BEB"></div>
+          <span class="list-name">MLflow</span>
+          <span class="list-quad">Платформы</span>
+        </div><div class="list-row" data-id="cloud">
+          <div class="list-dot" style="background:#3B8BEB"></div>
+          <span class="list-name">Cloud Infrastructure</span>
+          <span class="list-quad">Платформы</span>
+        </div><div class="list-group-title" style="color: rgb(244, 164, 39);">Assess</div><div class="list-row" data-id="datacontract">
+          <div class="list-dot" style="background:#F4A427"></div>
+          <span class="list-name">Data Contract</span>
+          <span class="list-quad">Методологии</span>
+        </div><div class="list-row" data-id="openlineage">
+          <div class="list-dot" style="background:#F4A427"></div>
+          <span class="list-name">OpenLineage / Atlas</span>
+          <span class="list-quad">Аналитика</span>
+        </div><div class="list-row" data-id="fastapi">
+          <div class="list-dot" style="background:#F4A427"></div>
+          <span class="list-name">FastAPI</span>
+          <span class="list-quad">Интеграция</span>
+        </div><div class="list-group-title" style="color: rgb(224, 92, 75);">Hold</div><div class="list-row" data-id="sqlserver">
+          <svg width="11" height="10" viewBox="0 0 11 10" style="flex-shrink:0">
+            <polygon points="5.5,0 11,10 0,10" fill="#E05C4B"></polygon>
+          </svg>
+          <span class="list-name">MS SQL Server 2008</span>
+          <span class="list-quad">Платформы</span>
+        </div><div class="list-row" data-id="powerbuilder">
+          <svg width="11" height="10" viewBox="0 0 11 10" style="flex-shrink:0">
+            <polygon points="5.5,0 11,10 0,10" fill="#E05C4B"></polygon>
+          </svg>
+          <span class="list-name">PowerBuilder</span>
+          <span class="list-quad">Аналитика</span>
+        </div><div class="list-row" data-id="esb">
+          <svg width="11" height="10" viewBox="0 0 11 10" style="flex-shrink:0">
+            <polygon points="5.5,0 11,10 0,10" fill="#E05C4B"></polygon>
+          </svg>
+          <span class="list-name">Apache Camel ESB</span>
+          <span class="list-quad">Интеграция</span>
+        </div><div class="list-row" data-id="powerbi_old">
+          <svg width="11" height="10" viewBox="0 0 11 10" style="flex-shrink:0">
+            <polygon points="5.5,0 11,10 0,10" fill="#E05C4B"></polygon>
+          </svg>
+          <span class="list-name">Power BI → DWH</span>
+          <span class="list-quad">Аналитика</span>
+        </div></div>
+  </div>
+
+</div>
+
+<script>
+// ─── DATA ────────────────────────────────────────────────────────────────────
+
+const QUADRANTS = [
+  { id: 0, name: "Платформы и хранилища",   short: "Платформы",   color: "#3B8BEB" },
+  { id: 1, name: "Интеграция и API",         short: "Интеграция",  color: "#F4A427" },
+  { id: 2, name: "Инструменты аналитики",    short: "Аналитика",   color: "#5DB85C" },
+  { id: 3, name: "Методологии",              short: "Методологии", color: "#E05C4B" },
+];
+
+const RINGS = [
+  { id: "use",    label: "Use",    color: "#5DB85C", r: 80  },
+  { id: "trial",  label: "Trial",  color: "#3B8BEB", r: 160 },
+  { id: "assess", label: "Assess", color: "#F4A427", r: 240 },
+  { id: "hold",   label: "Hold",   color: "#E05C4B", r: 320 },
+];
+
+const TECHS = [
+  // ── USE ──
+  { id:"kafka",      name:"Apache Kafka",         ring:"use",    quad:1, legacy:false,
+    cat:"Интеграция",
+    desc:"Managed event bus — заменяет монолитную ESB на Apache Camel. Schema Registry обеспечивает контрактную совместимость между доменами.",
+    scenarios:["Независимость доменов","Подключение новых бизнесов","Стриминг в Lakehouse"] },
+  { id:"iceberg",    name:"Apache Iceberg",        ring:"use",    quad:0, legacy:false,
+    cat:"Платформа данных",
+    desc:"Open table format для Data Lakehouse. ACID-транзакции, time travel, schema evolution. Устраняет необходимость в отдельных Data Marts.",
+    scenarios:["Быстрая отчётность","Аудит и compliance","Масштабирование аналитики"] },
+  { id:"postgresql", name:"PostgreSQL (Cloud)",    ring:"use",    quad:0, legacy:false,
+    cat:"Операционная БД",
+    desc:"Изолированные операционные БД для каждого домена в облаке. Заменяет единую схему DWH.",
+    scenarios:["Изоляция доменов","Независимость финтеха и ИИ"] },
+  { id:"dbt",        name:"dbt",                   ring:"use",    quad:2, legacy:false,
+    cat:"Трансформации",
+    desc:"SQL-трансформации поверх Lakehouse с тестами качества данных, документацией и lineage. Выносит бизнес-логику из DWH.",
+    scenarios:["Быстрая отчётность","Качество данных","Масштабирование аналитики"] },
+  { id:"datamesh",   name:"Data Mesh",             ring:"use",    quad:3, legacy:false,
+    cat:"Методология",
+    desc:"Децентрализованное владение данными: каждый домен — владелец своих данных и публикует их как продукт. Основа архитектурной трансформации.",
+    scenarios:["Подключение новых бизнесов","Независимость доменов","Снижение зависимости от DWH"] },
+  { id:"ddd",        name:"Domain-Driven Design",  ring:"use",    quad:3, legacy:false,
+    cat:"Методология",
+    desc:"Границы доменов определены по бизнес-возможностям. Публичные контракты (API + schema) изолируют внутреннюю реализацию.",
+    scenarios:["Независимость доменов","Ускорение time-to-market"] },
+  { id:"rbac",       name:"RBAC + Audit Log",      ring:"use",    quad:3, legacy:false,
+    cat:"Безопасность",
+    desc:"Ролевая модель доступа к данным и аудит всех запросов. Обязательно для 152-ФЗ и требований ЦБ.",
+    scenarios:["Регуляторный комплаенс","Портал самообслуживания","Защита PHI"] },
+
+  // ── TRIAL ──
+  { id:"trino",      name:"Trino / Spark",         ring:"trial",  quad:0, legacy:false,
+    cat:"Вычислительный движок",
+    desc:"Распределённый SQL-движок для запросов к Lakehouse. Время отклика по витринам — секунды вместо часов.",
+    scenarios:["Быстрая отчётность","Масштабирование аналитики"] },
+  { id:"apigw",      name:"API Gateway",            ring:"trial",  quad:1, legacy:false,
+    cat:"Интеграция",
+    desc:"Единая точка входа для синхронных межсервисных вызовов. Auth, rate-limiting, роутинг. Заменяет прямые вызовы между сервисами.",
+    scenarios:["ИИ-диагностика","Финтех ↔ клиники","Безопасность API"] },
+  { id:"cdc",        name:"Kafka Connect / CDC",    ring:"trial",  quad:1, legacy:false,
+    cat:"Интеграция",
+    desc:"Change Data Capture для стриминга изменений из операционных БД в Lakehouse без кастомного кода.",
+    scenarios:["Быстрая отчётность","Стриминг событий в Lakehouse"] },
+  { id:"superset",   name:"Apache Superset",        ring:"trial",  quad:2, legacy:false,
+    cat:"BI-платформа",
+    desc:"Open-source BI с конструктором отчётов и RBAC. Альтернатива Power BI, работает поверх Lakehouse через семантический слой.",
+    scenarios:["Портал самообслуживания","Быстрая отчётность"] },
+  { id:"cube",       name:"Cube.dev",               ring:"trial",  quad:2, legacy:false,
+    cat:"Семантический слой",
+    desc:"Единые бизнес-метрики, кэширование, RBAC. Устраняет расхождения в расчётах между командами.",
+    scenarios:["Портал самообслуживания","Единый источник истины"] },
+  { id:"mlflow",     name:"MLflow",                 ring:"trial",  quad:0, legacy:false,
+    cat:"ML-платформа",
+    desc:"Версионирование ML-моделей, трекинг экспериментов, A/B тесты.",
+    scenarios:["Независимое развитие ИИ","Качество медицинских сервисов"] },
+  { id:"cloud",      name:"Cloud Infrastructure",   ring:"trial",  quad:0, legacy:false,
+    cat:"Инфраструктура",
+    desc:"Managed cloud-сервисы вместо on-premise. Горизонтальное масштабирование, geo-redundancy.",
+    scenarios:["Масштабирование отчётности","Надёжность финтеха","Подключение новых бизнесов"] },
+
+  // ── ASSESS ──
+  { id:"datacontract",  name:"Data Contract",         ring:"assess", quad:3, legacy:false,
+    cat:"Методология",
+    desc:"Формализованные контракты на данные между доменами: схема, качество, SLA. Дополняет Data Mesh.",
+    scenarios:["Подключение новых бизнесов","Качество данных"] },
+  { id:"openlineage",   name:"OpenLineage / Atlas",    ring:"assess", quad:2, legacy:false,
+    cat:"Data Governance",
+    desc:"Data lineage и каталог данных: откуда пришли данные, кто их менял. Важно для аудита.",
+    scenarios:["Регуляторный комплаенс","Качество данных"] },
+  { id:"fastapi",       name:"FastAPI",                ring:"assess", quad:1, legacy:false,
+    cat:"API-фреймворк",
+    desc:"Python-фреймворк для ИИ-сервисов. Уже используется в ИИ-домене, оценивается для расширения.",
+    scenarios:["Независимое развитие ИИ"] },
+
+  // ── HOLD ──
+  { id:"sqlserver",    name:"MS SQL Server 2008",  ring:"hold", quad:0, legacy:true,
+    cat:"Legacy · DWH",
+    desc:"EOL с 2019 года. Единая точка хранения всех данных. Не масштабируется, не получает патчи безопасности.",
+    scenarios:["Блокирует все сценарии"] },
+  { id:"powerbuilder", name:"PowerBuilder",        ring:"hold", quad:2, legacy:true,
+    cat:"Legacy · UI",
+    desc:"Мёртвая экосистема, нет специалистов. Не поддерживает облачную аутентификацию и мобильный доступ.",
+    scenarios:["Блокирует интеграцию ИИ в рабочее место врача"] },
+  { id:"esb",          name:"Apache Camel ESB",    ring:"hold", quad:1, legacy:true,
+    cat:"Legacy · Интеграция",
+    desc:"Монолитная шина — единая точка отказа. Добавление нового домена ломает существующие маршруты.",
+    scenarios:["Блокирует масштабирование","Блокирует независимость доменов"] },
+  { id:"powerbi_old",  name:"Power BI → DWH",     ring:"hold", quad:2, legacy:true,
+    cat:"Legacy · BI",
+    desc:"Подключён напрямую к DWH без семантического слоя. Разные команды считают одни метрики по-разному.",
+    scenarios:["Замедляет управленческие решения"] },
+];
+
+// ─── RADAR SVG ───────────────────────────────────────────────────────────────
+
+const NS = "http://www.w3.org/2000/svg";
+const svg = document.getElementById("radar");
+
+function svgEl(tag, attrs, parent) {
+  const e = document.createElementNS(NS, tag);
+  for (const [k,v] of Object.entries(attrs||{})) e.setAttribute(k,v);
+  if (parent) parent.appendChild(e);
+  return e;
+}
+
+function svgText(s, attrs, parent) {
+  const e = svgEl("text", attrs, parent);
+  e.textContent = s;
+  return e;
+}
+
+// sector fills (very light tints per quadrant)
+const qColors = ["#EBF4FF","#FEF9EB","#EDF7ED","#FEF0EE"];
+
+// draw sector fills
+[0,1,2,3].forEach(qi => {
+  const startDeg = qi * 90 - 90;
+  const endDeg   = startDeg + 90;
+  const R = 320;
+  const a1 = startDeg * Math.PI/180;
+  const a2 = endDeg   * Math.PI/180;
+  const x1 = Math.cos(a1)*R, y1 = Math.sin(a1)*R;
+  const x2 = Math.cos(a2)*R, y2 = Math.sin(a2)*R;
+  svgEl("path", {
+    d:`M0,0 L${x1},${y1} A${R},${R} 0 0,1 ${x2},${y2} Z`,
+    fill: qColors[qi], opacity:"0.5"
+  }, svg);
+});
+
+// rings (back to front)
+for (let i=RINGS.length-1; i>=0; i--) {
+  const R = RINGS[i];
+  svgEl("circle", { cx:0, cy:0, r:R.r, fill:"none", stroke:R.color, "stroke-width":"1", "stroke-dasharray":"4 3", opacity:"0.4" }, svg);
+}
+
+// divider lines
+[0,90,180,270].forEach(deg => {
+  const a = deg*Math.PI/180;
+  svgEl("line", { x1:0,y1:0, x2:Math.cos(a)*325, y2:Math.sin(a)*325, stroke:"#ccc","stroke-width":"1" }, svg);
+});
+
+// ring labels (inside, top-right quadrant)
+RINGS.forEach((R,i) => {
+  const prevR = i===0 ? 0 : RINGS[i-1].r;
+  const mid = (prevR + R.r)/2;
+  svgText(R.label, {
+    x: 4, y: -mid+5,
+    fill: R.color, "font-size":"10",
+    "font-family":"Inter,sans-serif", "font-weight":"600",
+    opacity:"0.8", "letter-spacing":"0.05em"
+  }, svg);
+});
+
+// quadrant labels at outer edge
+const qLabelPos = [
+  { x:  0, y:-335, anchor:"middle" },
+  { x:  335, y:12, anchor:"start"  },
+  { x:  0, y: 348, anchor:"middle" },
+  { x: -335, y:12, anchor:"end"    },
+];
+QUADRANTS.forEach((q,i) => {
+  svgText(q.short, {
+    x: qLabelPos[i].x, y: qLabelPos[i].y,
+    fill: q.color, "font-size":"11",
+    "font-family":"Inter,sans-serif", "font-weight":"700",
+    "text-anchor": qLabelPos[i].anchor,
+    "letter-spacing":"0.08em", "text-transform":"uppercase"
+  }, svg);
+});
+
+// ── place blips ──────────────────────────────────────────────────────────────
+
+const blipEls = {};
+
+// group by quad+ring
+const groups = {};
+TECHS.forEach(t => {
+  const key = `${t.quad}_${t.ring}`;
+  if (!groups[key]) groups[key] = [];
+  groups[key].push(t);
+});
+
+const ringIdx = r => ["use","trial","assess","hold"].indexOf(r);
+const ringColor = r => RINGS[ringIdx(r)].color;
+
+Object.entries(groups).forEach(([key, items]) => {
+  const [qi, ring] = key.split("_");
+  const ri = ringIdx(ring);
+  const innerR = ri===0 ? 8  : RINGS[ri-1].r + 10;
+  const outerR = RINGS[ri].r - 10;
+  const midR   = (innerR + outerR)/2;
+  const spreadR = (outerR - innerR) * 0.35;
+
+  // sector: quad 0=top, 1=right, 2=bottom, 3=left
+  // angles: quad*90 - 90 to quad*90 - 90 + 90
+  const startDeg = Number(qi)*90 - 90;
+  const sweep = 75;
+  const total = items.length;
+
+  items.forEach((t, idx) => {
+    const offset = total>1 ? -sweep/2 + (sweep/(total-1))*idx : 0;
+    const deg = startDeg + 45 + offset;
+    const r   = midR + (idx%2===0 ? 0 : spreadR*(idx%3===2?-1:1)*0.4);
+    const rad = deg*Math.PI/180;
+    const x   = Math.cos(rad)*r;
+    const y   = Math.sin(rad)*r;
+
+    const g = svgEl("g", { transform:`translate(${x},${y})`, cursor:"pointer", class:"blip-g" }, svg);
+    g.setAttribute("data-id", t.id);
+
+    const color = ringColor(t.ring);
+
+    if (t.legacy) {
+      // triangle for legacy
+      svgEl("polygon", {
+        points:"0,-8 7,5 -7,5",
+        fill: color, stroke:"white", "stroke-width":"1.5", opacity:"0.9"
+      }, g);
+    } else {
+      svgEl("circle", {
+        cx:0, cy:0, r:7,
+        fill: color, stroke:"white", "stroke-width":"1.5", opacity:"0.9"
+      }, g);
+    }
+
+    // tooltip title
+    const title = svgEl("title",{},g);
+    title.textContent = t.name;
+
+    blipEls[t.id] = g;
+
+    g.addEventListener("click", () => selectTech(t.id));
+    g.addEventListener("mouseenter", () => highlightBlip(t.id, true));
+    g.addEventListener("mouseleave", () => { if (selectedId!==t.id) highlightBlip(t.id,false); });
+  });
+});
+
+function highlightBlip(id, on) {
+  const g = blipEls[id];
+  if (!g) return;
+  const shape = g.querySelector("circle,polygon");
+  if (!shape) return;
+  shape.setAttribute("opacity", on ? "1" : "0.9");
+  shape.setAttribute("stroke-width", on ? "2.5" : "1.5");
+  shape.setAttribute("stroke", on ? "#1F1F1F" : "white");
+}
+
+// ─── LEGEND ──────────────────────────────────────────────────────────────────
+
+const legendEl = document.getElementById("ring-legend");
+RINGS.forEach(R => {
+  const item = document.createElement("div");
+  item.className = "ring-legend-item";
+  item.innerHTML = `<div class="ring-dot" style="background:${R.color}"></div>${R.label}`;
+  legendEl.appendChild(item);
+});
+// legacy indicator
+const legItem = document.createElement("div");
+legItem.className = "ring-legend-item";
+legItem.innerHTML = `<svg width="12" height="10" viewBox="0 0 12 10"><polygon points="6,0 12,10 0,10" fill="#888"/></svg><span style="color:#888">Legacy</span>`;
+legendEl.appendChild(legItem);
+
+// ─── TABS ────────────────────────────────────────────────────────────────────
+
+let activeTab = "all";
+const tabsEl = document.getElementById("tabs");
+
+const tabDefs = [
+  { id:"all", label:"Все" },
+  ...QUADRANTS.map(q => ({ id: String(q.id), label: q.short })),
+];
+
+tabDefs.forEach(td => {
+  const btn = document.createElement("div");
+  btn.className = "tab" + (td.id==="all" ? " active" : "");
+  btn.textContent = td.label;
+  btn.onclick = () => {
+    activeTab = td.id;
+    document.querySelectorAll(".tab").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    renderList();
+  };
+  tabsEl.appendChild(btn);
+});
+
+// ─── LIST ────────────────────────────────────────────────────────────────────
+
+const listEl = document.getElementById("tech-list");
+const searchEl = document.getElementById("search");
+searchEl.addEventListener("input", renderList);
+
+function renderList() {
+  const q   = searchEl.value.toLowerCase();
+  const tab = activeTab;
+
+  let items = TECHS.filter(t => {
+    const matchTab = tab==="all" || String(t.quad)===tab;
+    const matchQ   = !q || t.name.toLowerCase().includes(q) || t.cat.toLowerCase().includes(q) || t.scenarios.some(s=>s.toLowerCase().includes(q));
+    return matchTab && matchQ;
+  });
+
+  // dim non-matching blips
+  TECHS.forEach(t => {
+    const visible = items.find(x=>x.id===t.id);
+    if (blipEls[t.id]) blipEls[t.id].style.opacity = visible ? "1" : "0.15";
+  });
+
+  listEl.innerHTML = "";
+
+  // group by ring
+  ["use","trial","assess","hold"].forEach(ring => {
+    const group = items.filter(t=>t.ring===ring);
+    if (!group.length) return;
+
+    const title = document.createElement("div");
+    title.className = "list-group-title";
+    title.style.color = ringColor(ring);
+    title.textContent = RINGS[ringIdx(ring)].label;
+    listEl.appendChild(title);
+
+    group.forEach(t => {
+      const row = document.createElement("div");
+      row.className = "list-row" + (selectedId===t.id ? " selected" : "");
+      row.setAttribute("data-id", t.id);
+
+      if (t.legacy) {
+        row.innerHTML = `
+          <svg width="11" height="10" viewBox="0 0 11 10" style="flex-shrink:0">
+            <polygon points="5.5,0 11,10 0,10" fill="${ringColor(t.ring)}"/>
+          </svg>
+          <span class="list-name">${t.name}</span>
+          <span class="list-quad">${QUADRANTS[t.quad].short}</span>
+        `;
+      } else {
+        row.innerHTML = `
+          <div class="list-dot" style="background:${ringColor(t.ring)}"></div>
+          <span class="list-name">${t.name}</span>
+          <span class="list-quad">${QUADRANTS[t.quad].short}</span>
+        `;
+      }
+
+      row.onclick = () => selectTech(t.id);
+      listEl.appendChild(row);
+    });
+  });
+}
+
+// ─── CARD ────────────────────────────────────────────────────────────────────
+
+let selectedId = null;
+const cardWrap = document.getElementById("card-wrap");
+
+function selectTech(id) {
+  if (selectedId) highlightBlip(selectedId, false);
+  selectedId = id;
+  highlightBlip(id, true);
+
+  document.querySelectorAll(".list-row").forEach(r => {
+    r.classList.toggle("selected", r.getAttribute("data-id")===id);
+  });
+
+  const t = TECHS.find(x=>x.id===id);
+  const badgeClass = `ring-badge badge-${t.ring}`;
+  const ringLabel  = RINGS[ringIdx(t.ring)].label;
+
+  const legacyHtml = t.legacy
+    ? `<div class="card-legacy legacy">▲ Текущая технология — подлежит замене</div>`
+    : `<div class="card-legacy new">● Предлагаемое изменение</div>`;
+
+  const scenariosHtml = t.scenarios
+    .map(s=>`<span class="scenario-tag">${s}</span>`).join("");
+
+  cardWrap.innerHTML = `
+    <div class="card active">
+      <div class="card-top">
+        <div class="card-name">${t.name}</div>
+        <span class="${badgeClass}">${ringLabel}</span>
+      </div>
+      <div class="card-cat">${t.cat} · ${QUADRANTS[t.quad].name}</div>
+      <div class="card-desc">${t.desc}</div>
+      ${legacyHtml}
+      <div class="scenarios-title">Бизнес-сценарии</div>
+      ${scenariosHtml}
+    </div>
+  `;
+}
+
+renderList();
+</script>
+
+
+</body></html>
